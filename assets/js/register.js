@@ -116,8 +116,8 @@
                 authmeSetFieldState(usernameInput, usernameMsg, 'error', 'Username must start with an alphabet character.');
                 return;
             }
-            if (!/^[a-zA-Z][a-zA-Z0-9]{2,19}$/.test(value)) {
-                authmeSetFieldState(usernameInput, usernameMsg, 'error', 'Username must be 3–20 alphanumeric characters.');
+            if (!/^[a-zA-Z][a-zA-Z0-9]{3,13}$/.test(value)) {
+                authmeSetFieldState(usernameInput, usernameMsg, 'error', 'Username must be 4–14 alphanumeric characters.');
                 return;
             }
 
@@ -196,8 +196,8 @@
             window.authmeCountryPhoneData.forEach(function (country) {
                 var option = document.createElement('option');
                 option.value = country.code;
-                // Display format: "🇮🇳 India (+91)" — clear, readable
-                option.textContent = country.flag + ' ' + country.country + ' (' + country.code + ')';
+                // Display format: "🇮🇳 +91" — compact and clean
+                option.textContent = country.flag + ' ' + country.code;
                 option.dataset.example = country.example;
                 option.dataset.region = country.region;
                 countrySelect.appendChild(option);

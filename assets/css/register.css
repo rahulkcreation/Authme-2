@@ -9,6 +9,11 @@
  * ============================================ */
 
 /* ── Input Groups ────────────────────────── */
+
+
+
+
+
 #authme-register-screen .authme-input-group {
     margin-bottom: 20px;
 }
@@ -108,8 +113,9 @@
 }
 
 #authme-register-screen .authme-country-select {
-    width: 160px;
-    min-width: 160px;
+    width: 90px;
+    min-width: 90px;
+    height: 45px;
     padding: 14px 8px;
     border: 1.5px solid var(--authme-border);
     border-radius: var(--authme-radius-md);

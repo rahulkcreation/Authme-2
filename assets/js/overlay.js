@@ -150,26 +150,10 @@
     backdrop = document.getElementById("authme-overlay-backdrop");
     closeBtn = document.getElementById("authme-overlay-close");
 
-    // Close button click
+    // Close button click (ONLY way to close the overlay)
     if (closeBtn) {
       closeBtn.addEventListener("click", authmeCloseOverlay);
     }
-
-    // Backdrop click (close when clicking outside the form)
-    if (backdrop) {
-      backdrop.addEventListener("click", function (e) {
-        if (e.target === backdrop) {
-          authmeCloseOverlay();
-        }
-      });
-    }
-
-    // Escape key closes overlay
-    document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape") {
-        authmeCloseOverlay();
-      }
-    });
 
     // Screen switching links (data-screen attribute)
     var switchLinks = document.querySelectorAll(".authme-link[data-screen]");

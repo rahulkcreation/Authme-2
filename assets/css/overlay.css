@@ -89,6 +89,8 @@ body.authme-body-locked {
     z-index: 10;
     margin: 0;
     appearance: none;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Ensure the SVG icon is always visible */
