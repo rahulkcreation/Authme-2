@@ -141,9 +141,13 @@
 
 .authme-host-field-msg {
     font-size: 13px;
-    min-height: 18px;
     line-height: 1.4;
     color: var(--authme-text-muted, #64748b);
+    display: block;
+}
+
+.authme-host-field-msg:empty {
+    display: none;
 }
 
 .authme-host-msg-error {
@@ -340,7 +344,6 @@
 .authme-host-btn {
     width: 100%;
     padding: 10px;
-    border: none;
     border-radius: var(--authme-radius-sm, 8px);
     font-size: 16px;
     font-weight: 600;
@@ -355,7 +358,7 @@
 }
 
 .authme-host-btn-primary {
-    background: var(--authme-primary, #2563eb);
+    background: var(--authme-primary, #2563eb) !important;
     color: white;
 }
 

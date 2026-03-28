@@ -427,17 +427,17 @@
     function startOtpTimer(seconds) {
         clearInterval(resendInterval);
         resendBtn.classList.add('authme-host-link-disabled');
-        otpTimerEl.parentElement.style.display = 'inline';
         
         var remaining = seconds;
-        otpTimerEl.textContent = remaining;
+        resendBtn.innerHTML = 'Resend in <b id="authme-host-otp-timer">' + remaining + '</b>s';
 
         resendInterval = setInterval(function () {
             remaining--;
-            otpTimerEl.textContent = remaining;
+            var timerNode = document.getElementById('authme-host-otp-timer');
+            if(timerNode) timerNode.textContent = remaining;
+
             if (remaining <= 0) {
                 clearInterval(resendInterval);
-                otpTimerEl.parentElement.style.display = 'none';
                 resendBtn.classList.remove('authme-host-link-disabled');
                 resendBtn.textContent = 'Resend OTP';
             }
