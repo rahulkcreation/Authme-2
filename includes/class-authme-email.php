@@ -95,5 +95,48 @@ class AuthMe_Email {
         include AUTHME_PLUGIN_DIR . 'templates/email-password-changed.php';
         return ob_get_clean();
     }
+
+    /* ──────────────────────────────────────── */
+
+    /**
+     * Send email when a Host Account is approved.
+     *
+     * @param string $to_email
+     * @param string $username
+     * @param string $password
+     * @return bool
+     */
+    public function send_host_approved_email( $to_email, $username, $password ) {
+        $subject = 'Congratulations! Your Host Account is Approved — ' . get_bloginfo( 'name' );
+        
+        ob_start();
+        $authme_host_username = $username;
+        $authme_host_password = $password;
+        $site_name = get_bloginfo( 'name' );
+        include AUTHME_PLUGIN_DIR . 'templates/email-host-approved.php';
+        $body = ob_get_clean();
+
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+        return wp_mail( $to_email, $subject, $body, $headers );
+    }
+
+    /**
+     * Send email when a Host Account is rejected.
+     *
+     * @param string $to_email
+     * @return bool
+     */
+    public function send_host_rejected_email( $to_email ) {
+        $subject = 'Update on Your Host Account Request — ' . get_bloginfo( 'name' );
+        
+        ob_start();
+        $admin_email = get_option( 'admin_email' );
+        $site_name   = get_bloginfo( 'name' );
+        include AUTHME_PLUGIN_DIR . 'templates/email-host-rejected.php';
+        $body = ob_get_clean();
+
+        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
+        return wp_mail( $to_email, $subject, $body, $headers );
+    }
 }
 

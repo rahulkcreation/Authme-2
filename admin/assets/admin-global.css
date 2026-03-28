@@ -15,13 +15,20 @@
 
     /* Status */
     --authme-admin-success: #16a34a;
+    --authme-admin-success-bg: #f0fdf4;
     --authme-admin-error: #dc2626;
+    --authme-admin-error-bg: #fef2f2;
+    --authme-admin-warning: #f59e0b;
+    --authme-admin-warning-bg: #fffbeb;
+    --authme-admin-info: #2563eb;
+    --authme-admin-info-bg: #eff6ff;
 
     /* Text */
     --authme-admin-text-title: #0f172a;
     --authme-admin-text-main: #1e293b;
     --authme-admin-text-dark: #334155;
     --authme-admin-text-muted: #64748b;
+    --authme-admin-text-placeholder: #94a3b8;
 
     /* Backgrounds & Surfaces */
     --authme-admin-white: #ffffff;
@@ -34,6 +41,6 @@
     --authme-admin-border: #e2e8f0;
 
     /* Shadows */
-    --authme-admin-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.06);
+    --authme-admin-shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.04);
     --authme-admin-shadow-toast: 0 10px 30px rgba(0, 0, 0, 0.15);
 }

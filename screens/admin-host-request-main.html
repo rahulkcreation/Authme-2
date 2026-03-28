@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host Application Requests - AuthMe Responsive Admin</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            /* Primary palette */
+            --authme-primary: #2563eb;
+            --authme-primary-hover: #1d4ed8;
+            --authme-primary-ring: rgba(37, 99, 235, 0.15);
+            --authme-primary-shadow: rgba(37, 99, 235, 0.2);
+
+            /* Status colors */
+            --authme-success: #16a34a;
+            --authme-success-bg: #f0fdf4;
+            --authme-success-ring: rgba(22, 163, 74, 0.12);
+            --authme-error: #dc2626;
+            --authme-error-bg: #fef2f2;
+            --authme-error-ring: rgba(220, 38, 38, 0.12);
+            --authme-warning: #f59e0b;
+            --authme-warning-bg: #fffbeb;
+            --authme-info: #2563eb;
+            --authme-info-bg: #eff6ff;
+
+            /* Password strength specific */
+            --authme-strength-good: #3b82f6;
+
+            /* Text */
+            --authme-text-main: #0f172a;
+            --authme-text-muted: #64748b;
+            --authme-text-placeholder: #94a3b8;
+
+            /* Backgrounds & surfaces */
+            --authme-bg: #f8fafc;
+            --authme-card-bg: #ffffff;
+            --authme-input-bg: #ffffff;
+            --authme-white: #ffffff;
+
+            /* Backdrop overlay */
+            --authme-backdrop: rgba(15, 23, 42, 0.55);
+
+            /* Borders */
+            --authme-border: #e2e8f0;
+
+            /* Border radius */
+            --authme-radius-sm: 8px;
+            --authme-radius-md: 10px;
+            --authme-radius-lg: 20px;
+
+            /* Shadows */
+            --authme-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06);
+            --authme-shadow-md: 0 10px 40px -10px rgba(0, 0, 0, 0.08);
+            --authme-shadow-lg: 0 20px 60px -15px rgba(0, 0, 0, 0.12);
+            --authme-toast-shadow: 0 8px 30px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.04);
+
+            /* Font */
+            --authme-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        /* ── Typography Base ─────────────────────── */
+        .authme-overlay-backdrop,
+        .authme-overlay-container,
+        .authme-toaster-container,
+        * {
+            font-family: var(--authme-font);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--authme-bg);
+            color: var(--authme-text-main);
+            min-height: 100vh;
+        }
+
+        /* --- Main Content --- */
+        .main-content {
+            padding: 1.5rem 1.25rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Stats & Search Area */
+        .overview-section { margin-bottom: 1.5rem; }
+        .overview-label { font-size: 0.8rem; font-weight: 700; color: var(--authme-text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        
+        .search-wrapper { position: relative; margin-bottom: 1.5rem; }
+        .search-input {
+            width: 100%; height: 52px; padding: 0 1rem 0 3rem;
+            border: 1px solid var(--authme-border); border-radius: var(--authme-radius-md);
+            background: var(--authme-input-bg); font-size: 1rem; outline: none; box-shadow: var(--authme-shadow-sm);
+            transition: all 0.2s;
+            color: var(--authme-text-main);
+        }
+        .search-input::placeholder { color: var(--authme-text-placeholder); }
+        .search-input:focus {
+            border-color: var(--authme-primary);
+            box-shadow: 0 0 0 3px var(--authme-primary-ring);
+        }
+        .search-icon { position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--authme-text-muted); }
+
+        /* Tabs */
+        .tabs-container {
+            display: flex; background: var(--authme-border); padding: 0.4rem; border-radius: var(--authme-radius-md); margin-bottom: 2rem;
+        }
+        .tab-btn {
+            flex: 1; padding: 0.75rem 0.5rem; border: none; background: transparent; border-radius: var(--authme-radius-sm);
+            font-size: 0.85rem; font-weight: 600; color: var(--authme-text-muted); cursor: pointer; text-align: center;
+            transition: all 0.2s;
+        }
+        .tab-btn.active { background: var(--authme-primary); color: var(--authme-white); box-shadow: var(--authme-shadow-sm); }
+
+        /* --- Responsive View Switch --- */
+        .desktop-table-view { display: none; } /* Hidden by default for mobile cards */
+        
+        /* Mobile Cards */
+        .requests-list { display: flex; flex-direction: column; gap: 1rem; }
+        .request-card {
+            background: var(--authme-card-bg); border-radius: var(--authme-radius-lg); padding: 1.5rem;
+            box-shadow: var(--authme-shadow-sm); border: 1px solid var(--authme-border);
+            display: flex; flex-direction: column; gap: 1rem;
+        }
+        .card-row { display: flex; justify-content: space-between; align-items: center; }
+        .label-sm { font-size: 0.7rem; font-weight: 700; color: var(--authme-text-muted); text-transform: uppercase; }
+        .value-id { font-weight: 800; color: var(--authme-primary); font-family: monospace; font-size: 1.1rem; }
+        .email { font-size: 0.85rem; font-weight: 700; color: var(--authme-text-main); }
+        .phone, .date-value { font-size: 0.8rem; color: var(--authme-text-muted); font-weight: 500; }
+        
+        .status-badge { padding: 0.3rem 0.75rem; border-radius: 6px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+        .status-pending { background: var(--authme-warning-bg); color: var(--authme-warning); }
+        .status-approved { background: var(--authme-success-bg); color: var(--authme-success); }
+        .status-rejected { background: var(--authme-error-bg); color: var(--authme-error); }
+        
+        .view-forms-btn { width: 100%; height: 44px; background: var(--authme-bg); border: 1px solid var(--authme-border); border-radius: var(--authme-radius-sm); color: var(--authme-text-main); font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .view-forms-btn:hover { background: var(--authme-border); color: var(--authme-primary); }
+
+        /* --- Desktop Specific styles --- */
+        @media (min-width: 768px) {
+            .main-content { padding: 2.5rem 1.25rem; }
+            
+            /* Show Table instead of Cards */
+            .requests-list { display: none; }
+            .desktop-table-view {
+                display: block; background: var(--authme-card-bg); border-radius: var(--authme-radius-md);
+                border: 1px solid var(--authme-border); box-shadow: var(--authme-shadow-sm); overflow: hidden;
+            }
+            table { width: 100%; border-collapse: collapse; text-align: left; }
+            th { background: var(--authme-bg); padding: 1rem 1.5rem; font-size: 0.75rem; text-transform: uppercase; color: var(--authme-text-muted); border-bottom: 1px solid var(--authme-border); }
+            td { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--authme-border); vertical-align: middle; }
+            tr:hover { background-color: var(--authme-bg); }
+            tr:last-child td { border-bottom: none; }
+            .btn-table-view { padding: 0.5rem 1rem; background: var(--authme-bg); border: 1px solid var(--authme-border); border-radius: var(--authme-radius-sm); font-weight: 600; cursor: pointer; font-size: 0.85rem; transition: all 0.2s; color: var(--authme-text-main); }
+            .btn-table-view:hover { background: var(--authme-border); color: var(--authme-primary); }
+        }
+
+        /* Pagination for Web */
+        .pagination-footer { display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.5rem; background: var(--authme-bg); border-top: 1px solid var(--authme-border); }
+        .page-btns { display: flex; gap: 0.5rem; }
+        .p-btn { border: 1px solid var(--authme-border); background: var(--authme-card-bg); color: var(--authme-text-main); padding: 0.4rem 0.8rem; border-radius: var(--authme-radius-sm); cursor: pointer; font-weight: 600; font-size: 0.85rem; transition: all 0.2s; }
+        .p-btn:hover:not(.active) { background: var(--authme-border); }
+        .p-btn.active { background: var(--authme-primary); color: var(--authme-white); border-color: var(--authme-primary); }
+
+        .applicant-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .card-row-app {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+    </style>
+</head>
+<body>
+
+    <main class="main-content">
+        <!-- Stats -->
+        <section class="overview-section">
+            <span class="overview-label">Dashboard Overview</span>
+        </section>
+
+        <!-- Search -->
+        <div class="search-wrapper">
+            <span class="search-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search by name, email, or phone..." oninput="app.render()">
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <button class="tab-btn active" id="btn-all" onclick="app.setFilter('all')">All <span id="count-all">(8)</span></button>
+            <button class="tab-btn" id="btn-pending" onclick="app.setFilter('pending')">Pending <span id="count-pending">(3)</span></button>
+            <button class="tab-btn" id="btn-rejected" onclick="app.setFilter('rejected')">Rejected <span id="count-rejected">(2)</span></button>
+        </div>
+
+        <!-- Mobile List View -->
+        <div class="requests-list" id="requestsList"></div>
+
+        <!-- Web Table View -->
+        <div class="desktop-table-view">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Applicant Info</th>
+                        <th>Status</th>
+                        <th>Date Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <div class="pagination-footer">
+                <span class="overview-label" id="pageInfo">Showing 1-8 of 8</span>
+                <div class="page-btns">
+                    <button class="p-btn">Prev</button>
+                    <button class="p-btn active">1</button>
+                    <button class="p-btn">Next</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const app = {
+            data: [
+                { id: "#001", email: "email@ex.com", phone: "123-456-7890", status: "pending", date: "March 28, 2026 4:21 PM" },
+                { id: "#002", email: "contact@test.com", phone: "987-654-3210", status: "approved", date: "March 27, 2026 10:15 AM" },
+                { id: "#003", email: "help@domain.org", phone: "555-0199", status: "rejected", date: "March 26, 2026 2:30 PM" },
+                { id: "#004", email: "info@service.net", phone: "444-0122", status: "pending", date: "March 25, 2026 9:00 AM" },
+                { id: "#005", email: "sales@corp.com", phone: "333-0133", status: "approved", date: "March 24, 2026 5:45 PM" },
+                { id: "#006", email: "support@tech.io", phone: "222-0144", status: "pending", date: "March 23, 2026 11:20 AM" },
+                { id: "#007", email: "admin@site.com", phone: "111-0155", status: "rejected", date: "March 22, 2026 3:10 PM" },
+                { id: "#008", email: "user@web.com", phone: "000-0166", status: "approved", date: "March 21, 2026 1:05 PM" }
+            ],
+            filter: 'all',
+
+            init() {
+                this.updateCounts();
+                this.render();
+            },
+            
+            updateCounts() {
+                const pendingCount = this.data.filter(item => item.status === 'pending').length;
+                const rejectedCount = this.data.filter(item => item.status === 'rejected').length;
+                
+                document.getElementById('count-all').innerText = `(${this.data.length})`;
+                document.getElementById('count-pending').innerText = `(${pendingCount})`;
+                document.getElementById('count-rejected').innerText = `(${rejectedCount})`;
+            },
+
+            setFilter(val) {
+                this.filter = val;
+                document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+                document.getElementById('btn-' + val).classList.add('active');
+                this.render();
+            },
+
+            render() {
+                const search = document.getElementById('searchInput').value.toLowerCase();
+                const listContainer = document.getElementById('requestsList');
+                const tableBody = document.getElementById('tableBody');
+                
+                const filtered = this.data.filter(item => {
+                    const matchesStatus = this.filter === 'all' || item.status === this.filter;
+                    return matchesStatus && (item.email.toLowerCase().includes(search) || item.phone.includes(search));
+                });
+
+                // Clear both views
+                listContainer.innerHTML = '';
+                tableBody.innerHTML = '';
+
+                if (!filtered.length) {
+                    listContainer.innerHTML = '<div style="text-align:center; padding: 2rem; color: var(--authme-text-muted);">No results found.</div>';
+                    tableBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 2rem; color: var(--authme-text-muted);">No results found.</td></tr>';
+                    return;
+                }
+
+                filtered.forEach(item => {
+                    // Mobile Card
+                    const card = document.createElement('div');
+                    card.className = 'request-card';
+                    card.innerHTML = `
+                        <div class="card-row">
+                            <span class="label-sm">ID</span>
+                            <span class="value-id">${item.id}</span>
+                        </div>
+                        <div class="card-row-app">
+                            <span class="label-sm">Applicant Info</span>
+                        <div class="applicant-details">
+                            <span class="email">${item.email}</span>
+                            <span class="phone">${item.phone}</span>
+                        </div>
+                        </div>
+                        <div class="card-row">
+                            <span class="label-sm">Status</span>
+                            <span class="status-badge status-${item.status}">${item.status}</span>
+                        </div>
+                        <div class="card-row">
+                            <span class="label-sm">Date</span>
+                            <span class="date-value">${item.date}</span>
+                        </div>
+                        <button class="view-forms-btn">View Forms</button>
+                    `;
+                    listContainer.appendChild(card);
+
+                    // Web Table Row
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><span class="value-id">${item.id}</span></td>
+                        <td>
+                            <div style= "font-size:0.9rem;  font-weight:700;">${item.email}</div>
+                            <div style="font-size:0.85rem; color:var(--authme-text-muted);">${item.phone}</div>
+                        </td>
+                        <td><span class="status-badge status-${item.status}">${item.status}</span></td>
+                        <td style="color:var(--authme-text-muted); font-size:0.9rem;">${item.date}</td>
+                        <td><button class="btn-table-view">View Forms</button></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            }
+        };
+
+        window.onload = () => app.init();
+    </script>
+</body>
+</html>

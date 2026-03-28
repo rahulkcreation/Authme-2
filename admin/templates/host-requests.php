@@ -1,107 +1,131 @@
-<?php
-/**
- * AuthMe Admin — Host Requests Page
- *
- * @package AuthMe
- */
-
-if ( ! defined( 'ABSPATH' ) ) {
-    exit;
-}
-
-global $wpdb;
-$table_name = $wpdb->prefix . 'host_request';
-
-// Check if table exists
-$table_exists = $wpdb->get_var( $wpdb->prepare( "SHOW TABLES LIKE %s", $table_name ) ) === $table_name;
-
-$requests = array();
-if ( $table_exists ) {
-    // Basic pagination (optional) or just list all recent for now
-    $requests = $wpdb->get_results( "SELECT * FROM {$table_name} ORDER BY date DESC LIMIT 100" );
-}
-?>
-
-<div class="wrap">
-    <h1 class="wp-heading-inline">Host Requests</h1>
+<div class="wrap authme-host-wrapper">
+    <h1 class="wp-heading-inline h-main-s-heading">Host Applications</h1>
     <hr class="wp-header-end">
 
-    <?php if ( ! $table_exists ) : ?>
-        <div class="notice notice-error inline"><p>Error: The <code><?php echo esc_html($table_name); ?></code> table does not exist. Please go to <strong>AuthMe &rarr; Database</strong> and click "Create / Update Tables".</p></div>
-    <?php else : ?>
-        
-        <table class="wp-list-table widefat fixed striped table-view-list">
-            <thead>
-                <tr>
-                    <th scope="col" id="id" class="manage-column column-id" style="width: 60px;">ID</th>
-                    <th scope="col" id="applicant" class="manage-column column-primary">Applicant Info</th>
-                    <th scope="col" id="status" class="manage-column column-status" style="width: 120px;">Status</th>
-                    <th scope="col" id="date" class="manage-column column-date" style="width: 180px;">Date Submitted</th>
-                    <th scope="col" id="actions" class="manage-column column-actions" style="width: 150px;">Actions</th>
-                </tr>
-            </thead>
+    <main class="main-content" id="authme-host-main-view">
+        <!-- Search -->
+        <div class="search-wrapper">
+            <span class="search-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </span>
+            <input type="text" class="search-input" id="authmeSearchInput" placeholder="Search by name, email, or phone (min 3 chars)...">
+        </div>
 
-            <tbody id="the-list">
-                <?php if ( empty( $requests ) ) : ?>
-                    <tr class="no-items"><td class="colspanchange" colspan="5">No host requests found.</td></tr>
-                <?php else : ?>
-                    <?php foreach ( $requests as $req ) : ?>
-                        <?php 
-                        $user_data = json_decode( $req->user_data, true ); 
-                        $username = isset($user_data['username']) ? esc_html($user_data['username']) : 'N/A';
-                        $fullname = isset($user_data['fullname']) ? esc_html($user_data['fullname']) : 'N/A';
-                        $email = isset($user_data['email']) ? esc_html($user_data['email']) : 'N/A';
-                        $mobile = isset($user_data['mobile']) ? esc_html($user_data['mobile']) : 'N/A';
+        <!-- Tabs -->
+        <div class="tabs-container">
+            <button class="tab-btn active" id="btn-pending" data-status="pending">Pending <span id="count-pending">(0)</span></button>
+            <button class="tab-btn" id="btn-approved" data-status="approved">Approved <span id="count-approved">(0)</span></button>
+            <button class="tab-btn" id="btn-rejected" data-status="rejected">Rejected <span id="count-rejected">(0)</span></button>
+        </div>
 
-                        // Check for images
-                        $has_aadharf = !empty($user_data['documents']['aadharf']);
-                        $has_aadharb = !empty($user_data['documents']['aadharb']);
-                        $has_pan = !empty($user_data['documents']['pan']);
-                        ?>
-                        <tr>
-                            <td class="id column-id"><?php echo esc_html( $req->id ); ?></td>
-                            
-                            <td class="title column-title has-row-actions column-primary" data-colname="Applicant Info">
-                                <strong><?php echo $fullname; ?></strong> (<?php echo $username; ?>)<br>
-                                <a href="mailto:<?php echo $email; ?>"><?php echo $email; ?></a><br>
-                                <?php echo $mobile; ?>
-                                
-                                <div style="margin-top:8px; font-size:12px; color:#666;">
-                                    <strong>Docs Attached:</strong> 
-                                    <?php echo $has_aadharf ? 'Aadhar Front, ' : ''; ?>
-                                    <?php echo $has_aadharb ? 'Aadhar Back, ' : ''; ?>
-                                    <?php echo $has_pan ? 'PAN' : ''; ?>
-                                </div>
-                                <button type="button" class="toggle-row"><span class="screen-reader-text">Show more details</span></button>
-                            </td>
-                            
-                            <td class="status column-status" data-colname="Status">
-                                <?php 
-                                    if ( strtolower($req->status) === 'pending' ) {
-                                        echo '<span class="authme-badge" style="background:#fffbeb; color:#f59e0b; padding:4px 8px; border-radius:4px; font-weight:600;">Pending</span>';
-                                    } elseif ( strtolower($req->status) === 'approved' ) {
-                                        echo '<span class="authme-badge" style="background:#f0fdf4; color:#16a34a; padding:4px 8px; border-radius:4px; font-weight:600;">Approved</span>';
-                                    } elseif ( strtolower($req->status) === 'rejected' ) {
-                                        echo '<span class="authme-badge" style="background:#fef2f2; color:#dc2626; padding:4px 8px; border-radius:4px; font-weight:600;">Rejected</span>';
-                                    } else {
-                                        echo '<span class="authme-badge" style="background:#f1f5f9; color:#475569; padding:4px 8px; border-radius:4px; font-weight:600;">' . esc_html( ucfirst($req->status) ) . '</span>';
-                                    }
-                                ?>
-                            </td>
-                            
-                            <td class="date column-date" data-colname="Date Submitted">
-                                <?php echo esc_html( date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $req->date ) ) ); ?>
-                            </td>
-                            
-                            <td class="actions column-actions" data-colname="Actions">
-                                <!-- Very basic action to quickly view the parsed data block -->
-                                <button type="button" class="button" onclick="alert('Viewing functionality can be built out further. Currently showing ID: <?php echo $req->id; ?>.')">View Forms</button>
-                            </td>
-                        </tr>
-                    <?php endforeach; ?>
-                <?php endif; ?>
-            </tbody>
-        </table>
+        <!-- Mobile List View -->
+        <div class="requests-list" id="requestsList">
+            <!-- Populated via JS -->
+        </div>
 
-    <?php endif; ?>
+        <!-- Web Table View -->
+        <div class="desktop-table-view">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Applicant Info</th>
+                        <th>Status</th>
+                        <th>Date Submitted</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Populated via JS -->
+                </tbody>
+            </table>
+            
+            <div class="pagination-footer">
+                <span class="overview-label" id="pageInfo">Showing 0 entries</span>
+                <div class="page-btns" id="paginationBtns">
+                    <!-- Pagination JS -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Detailed Form View (Hidden by Default) -->
+    <main class="main-container" id="authme-view-form">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <button class="btn-back" id="btnBackToMain">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <h1 class="page-title">Application Review</h1>
+            </div>
+            <span class="app-id" id="view-app-id">ID: </span>
+        </header>
+
+        <!-- Profile Card -->
+        <section class="profile-card">
+            <div class="profile-header">
+                <div class="avatar" id="view-avatar">?</div>
+                <div>
+                    <h2 class="profile-name" id="view-name">Loading...</h2>
+                    <p class="profile-handle" id="view-username">@loading</p>
+                </div>
+            </div>
+            <div class="contact-details">
+                <div class="contact-row dashed-border">
+                    <span class="contact-label">Email</span>
+                    <span class="contact-value" id="view-email">-</span>
+                </div>
+                <div class="contact-row">
+                    <span class="contact-label">Phone</span>
+                    <span class="contact-value" id="view-phone">-</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Documents Section -->
+        <section class="section-mb">
+            <h3 class="section-title">Uploaded Documents</h3>
+            <div class="doc-list" id="view-doc-list">
+                <!-- Dynamically injected -->
+            </div>
+        </section>
+
+        <!-- Status Section -->
+        <section class="section-mb">
+            <h3 class="section-title">Application Status</h3>
+            <div class="status-wrapper">
+                <button class="status-btn" id="statusDropdownBtn">
+                    <div class="status-info">
+                        <div class="status-dot" id="view-status-dot"></div>
+                        <span class="status-text" id="view-status-text">Pending</span>
+                    </div>
+                </button>
+                <div id="statusDropdownMenu" class="status-dropdown-menu">
+                    <div class="status-option" data-val="pending">Pending</div>
+                    <div class="status-option" data-val="approved">Approve</div>
+                    <div class="status-option" data-val="rejected">Reject</div>
+                </div>
+            </div>
+        </section>
+
+        <button class="btn-submit" id="btnSubmitReview">
+            <span>Update Status</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+            </svg>
+        </button>
+    </main>
+
+    <!-- Document Image Modal -->
+    <div id="docViewerModal" class="doc-viewer-backdrop">
+        <div class="doc-viewer-content">
+            <button id="docViewerClose">&times;</button>
+            <img id="docViewerImg" src="" alt="Document Preview">
+        </div>
+    </div>
 </div>

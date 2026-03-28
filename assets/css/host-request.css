@@ -34,7 +34,7 @@
     width: 100%;
     max-width: 480px;
     border-radius: var(--authme-radius-lg, 20px);
-    box-shadow: var(--authme-shadow-lg, 0 20px 60px -15px rgba(0,0,0,0.12));
+    box-shadow: var(--authme-shadow-lg, 0 20px 60px -15px rgba(0, 0, 0, 0.12));
     position: relative;
     padding: 40px;
     transform: translateY(20px);
@@ -103,13 +103,13 @@
 
 .authme-host-input {
     width: 100%;
-    padding: 12px 16px;
-    border: 1px solid var(--authme-border, #e2e8f0);
-    border-radius: var(--authme-radius-sm, 8px);
-    background: var(--authme-input-bg, #ffffff);
-    color: var(--authme-text-main, #0f172a);
-    font-size: 15px;
-    transition: all 0.2s ease;
+    padding: 12px 16px !important;
+    border: 1px solid var(--authme-border, #e2e8f0) !important;
+    border-radius: var(--authme-radius-sm, 8px) !important;
+    background: var(--authme-input-bg, #ffffff) !important;
+    color: var(--authme-text-main, #0f172a) !important;
+    font-size: 15px !important;
+    transition: all 0.2s ease !important;
     box-sizing: border-box;
 }
 
@@ -162,8 +162,9 @@
 }
 
 .authme-host-country-select {
-    width: 120px;
+    width: 90px;
     padding: 12px 10px;
+    min-height: 45px;
     border: 1px solid var(--authme-border, #e2e8f0);
     border-radius: var(--authme-radius-sm, 8px);
     background: var(--authme-input-bg, #ffffff);
@@ -239,8 +240,15 @@
 }
 
 @keyframes hostFadeIn {
-    from { opacity: 0; transform: translateY(5px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ── Document Upload ────────────────────── */
@@ -313,7 +321,7 @@
     position: absolute;
     top: 5px;
     right: 5px;
-    background: rgba(0,0,0,0.6);
+    background: rgba(0, 0, 0, 0.6);
     color: white;
     border: none;
     border-radius: 50%;
@@ -331,12 +339,12 @@
 
 .authme-host-btn {
     width: 100%;
-    padding: 14px 24px;
+    padding: 10px;
     border: none;
     border-radius: var(--authme-radius-sm, 8px);
     font-size: 16px;
     font-weight: 600;
-    cursor: pointer;
+    cursor: pointer !important;
     transition: all 0.2s ease;
     box-sizing: border-box;
 }
@@ -448,12 +456,25 @@
     animation: hostBounce 1.4s infinite ease-in-out both;
 }
 
-.host-dot:nth-child(1) { animation-delay: -0.32s; }
-.host-dot:nth-child(2) { animation-delay: -0.16s; }
+.host-dot:nth-child(1) {
+    animation-delay: -0.32s;
+}
+
+.host-dot:nth-child(2) {
+    animation-delay: -0.16s;
+}
 
 @keyframes hostBounce {
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1); }
+
+    0%,
+    80%,
+    100% {
+        transform: scale(0);
+    }
+
+    40% {
+        transform: scale(1);
+    }
 }
 
 /* ── Success Screen ──────────────────────── */
@@ -492,7 +513,7 @@
         transform: translateY(0);
         box-shadow: none;
     }
-    
+
     .authme-host-backdrop {
         align-items: flex-start;
     }

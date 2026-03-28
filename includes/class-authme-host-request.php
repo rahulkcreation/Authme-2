@@ -49,6 +49,10 @@ class AuthMe_Host_Request {
             wp_send_json_error( array( 'message' => 'Username is not available.' ) );
         }
 
+        if ( $this->is_value_in_pending_request( 'username', $username ) ) {
+            wp_send_json_error( array( 'message' => 'This username is currently under review in an existing application.' ) );
+        }
+
         wp_send_json_success( array( 'message' => 'Username available.' ) );
     }
 
@@ -68,6 +72,10 @@ class AuthMe_Host_Request {
 
         if ( email_exists( $email ) ) {
             wp_send_json_error( array( 'message' => 'Email already exists.' ) );
+        }
+
+        if ( $this->is_value_in_pending_request( 'email', $email ) ) {
+            wp_send_json_error( array( 'message' => 'This email is currently under review in an existing application.' ) );
         }
 
         wp_send_json_success( array( 'message' => 'Email available.' ) );
@@ -96,6 +104,10 @@ class AuthMe_Host_Request {
 
         if ( $exists ) {
             wp_send_json_error( array( 'message' => 'Mobile number is already registered.' ) );
+        }
+
+        if ( $this->is_value_in_pending_request( 'mobile', $mobile ) ) {
+            wp_send_json_error( array( 'message' => 'This mobile number is currently under review in an existing application.' ) );
         }
 
         wp_send_json_success( array( 'message' => 'Mobile number available.' ) );
@@ -152,6 +164,26 @@ class AuthMe_Host_Request {
         }
 
         wp_send_json_success( array( 'message' => 'Application submitted successfully.' ) );
+    }
+
+    /* ──────────────────────────────────────── */
+
+    /**
+     * Helper to check if a specific key-value pair exists in any non-rejected host request JSON data.
+     * 
+     * @param string $field The JSON key (e.g. 'username', 'email')
+     * @param string $value The value to check for.
+     * @return bool
+     */
+    private function is_value_in_pending_request( $field, $value ) {
+        global $wpdb;
+        // Search the stringified JSON payload strictly for '"field":"value"'
+        $search = '%"' . $field . '":"' . $wpdb->esc_like( $value ) . '"%';
+        $count = $wpdb->get_var( $wpdb->prepare(
+            "SELECT COUNT(*) FROM {$this->table_name} WHERE status != 'rejected' AND user_data LIKE %s",
+            $search
+        ) );
+        return $count > 0;
     }
 
 }
