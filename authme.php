@@ -78,6 +78,27 @@ function authme_activate_plugin()
 }
 
 /* ──────────────────────────────────────────────
+ * Fail-safe: Ensure Roles Exist (If plugin wasn't reactivated)
+ * ────────────────────────────────────────────── */
+add_action('init', 'authme_ensure_roles_exist');
+
+function authme_ensure_roles_exist()
+{
+    if (! get_role('traveller')) {
+        add_role('traveller', 'Traveller', array(
+            'read' => true,
+        ));
+    }
+    
+    if (! get_role('host')) {
+        add_role('host', 'Host', array(
+            'read' => true,
+            'upload_files' => true,
+        ));
+    }
+}
+
+/* ──────────────────────────────────────────────
  * Plugin Deactivation
  * ────────────────────────────────────────────── */
 register_deactivation_hook(__FILE__, 'authme_deactivate_plugin');
