@@ -172,6 +172,8 @@ After installing Composer, you need to install the PHP dependencies for AuthMe.
 
 **Important:** The `vendor` folder contains the libphonenumber library. **DO NOT include the `vendor` folder in your git repository** as it contains external dependencies managed by Composer.
 
+**Phone Number Validation:** AuthMe uses the `giggsey/libphonenumber-for-php` library for validating international phone numbers. This dependency is already defined in `composer.json`, so it will be installed automatically when you run the Composer commands below.
+
 #### Step-by-Step Installation
 
 1. **Navigate to the Plugin Directory**
@@ -187,18 +189,24 @@ After installing Composer, you need to install the PHP dependencies for AuthMe.
    cd C:\path\to\your\wordpress\wp-content\plugins\authme-2
    ```
 
-2. **Install Dependencies**
+   2. **Install Dependencies**
 
-   Run Composer to install all dependencies:
-   
-   ```bash
-   composer install
-   ```
-   
-   Or if you need to update dependencies:
-   ```bash
-   composer update
-   ```
+    Run Composer to install all dependencies:
+    
+    ```bash
+    composer install
+    ```
+    
+    Or if you need to update dependencies:
+    ```bash
+    composer update
+    ```
+    
+    This will automatically install the `giggsey/libphonenumber-for-php` library for phone number validation. If for any reason the package is not installed, you can explicitly require it:
+    
+    ```bash
+    composer require giggsey/libphonenumber-for-php
+    ```
 
 3. **What Happens Next**
 
@@ -641,9 +649,10 @@ The plugin integrates with WooCommerce when the plugin is active:
 ### Plugin not working after upload
 
 1. Make sure you ran `composer install` and the `vendor` folder exists
-2. Check PHP version is 7.4 or higher
-3. Verify WordPress version is 5.0 or higher
-4. Check that the `json` and `mbstring` PHP extensions are enabled
+2. Verify the `vendor/giggsey/libphonenumber-for-php` folder was created (this is required for phone number validation)
+3. Check PHP version is 7.4 or higher
+4. Verify WordPress version is 5.0 or higher
+5. Check that the `json` and `mbstring` PHP extensions are enabled
 
 ### OTP not being sent
 
@@ -658,6 +667,7 @@ The plugin integrates with WooCommerce when the plugin is active:
 2. Check PHP is in system PATH
 3. Try running: `composer install --no-dev`
 4. If there are memory issues: `php -d memory_limit=512M composer install`
+5. If the phone number validation library is missing: `composer require giggsey/libphonenumber-for-php`
 
 ### Database table not created
 
