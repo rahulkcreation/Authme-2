@@ -168,11 +168,11 @@ If you're using XAMPP or WAMP:
 
 ### Installing PHP Dependencies (Vendor Files)
 
-After installing Composer, you need to install the PHP dependencies for AuthMe.
+After installing Composer, you need to install the phone number validation library for AuthMe.
 
 **Important:** The `vendor` folder contains the libphonenumber library. **DO NOT include the `vendor` folder in your git repository** as it contains external dependencies managed by Composer.
 
-**Phone Number Validation:** AuthMe uses the `giggsey/libphonenumber-for-php` library for validating international phone numbers. This dependency is already defined in `composer.json`, so it will be installed automatically when you run the Composer commands below.
+**Phone Number Validation:** AuthMe uses the `giggsey/libphonenumber-for-php` library for validating international phone numbers.
 
 #### Step-by-Step Installation
 
@@ -189,34 +189,17 @@ After installing Composer, you need to install the PHP dependencies for AuthMe.
    cd C:\path\to\your\wordpress\wp-content\plugins\authme-2
    ```
 
-   2. **Install Dependencies**
+2. **Install the Phone Number Validation Library**
 
-    Run Composer to install all dependencies:
-    
-    ```bash
-    composer install
-    ```
-    
-    Or if you need to update dependencies:
-    ```bash
-    composer update
-    ```
-    
-    This will automatically install the `giggsey/libphonenumber-for-php` library for phone number validation. If for any reason the package is not installed, you can explicitly require it:
-    
-    ```bash
-    composer require giggsey/libphonenumber-for-php
-    ```
+   Run this command to install the required dependency:
+   
+   ```bash
+   composer require giggsey/libphonenumber-for-php
+   ```
+   
+   This will download the `libphonenumber-for-php` library and create the `vendor` folder with all necessary files.
 
-3. **What Happens Next**
-
-   Composer will:
-   - Read the `composer.json` file
-   - Download the `libphonenumber-for-php` library and its dependencies
-   - Create a `vendor` folder with all necessary files
-   - Create an `autoload.php` file for automatic class loading
-
-4. **Verify Installation**
+3. **Verify Installation**
 
    Check that the vendor folder was created:
    
@@ -233,7 +216,7 @@ After installing Composer, you need to install the PHP dependencies for AuthMe.
    └── composer/
    ```
 
-5. **Uploading to WordPress**
+4. **Uploading to WordPress**
 
    When uploading the plugin to WordPress:
    
@@ -648,7 +631,7 @@ The plugin integrates with WooCommerce when the plugin is active:
 
 ### Plugin not working after upload
 
-1. Make sure you ran `composer install` and the `vendor` folder exists
+1. Make sure you ran `composer require giggsey/libphonenumber-for-php` and the `vendor` folder exists
 2. Verify the `vendor/giggsey/libphonenumber-for-php` folder was created (this is required for phone number validation)
 3. Check PHP version is 7.4 or higher
 4. Verify WordPress version is 5.0 or higher
@@ -665,9 +648,8 @@ The plugin integrates with WooCommerce when the plugin is active:
 
 1. Verify Composer is installed: `composer --version`
 2. Check PHP is in system PATH
-3. Try running: `composer install --no-dev`
-4. If there are memory issues: `php -d memory_limit=512M composer install`
-5. If the phone number validation library is missing: `composer require giggsey/libphonenumber-for-php`
+3. If there are memory issues: `php -d memory_limit=512M composer require giggsey/libphonenumber-for-php`
+4. Make sure you're running the command from the plugin directory
 
 ### Database table not created
 
