@@ -37,6 +37,96 @@
         }, 4000);
     }
 
+    /**
+     * Reusable Confirmation Modal
+     */
+    function showAdminConfirm(title, message, onConfirm) {
+        var overlay = document.createElement('div');
+        overlay.style.position = 'fixed';
+        overlay.style.top = '0';
+        overlay.style.left = '0';
+        overlay.style.width = '100%';
+        overlay.style.height = '100%';
+        overlay.style.backgroundColor = 'rgba(15, 23, 42, 0.55)';
+        overlay.style.zIndex = '999999';
+        overlay.style.display = 'flex';
+        overlay.style.alignItems = 'center';
+        overlay.style.justifyContent = 'center';
+        overlay.style.backdropFilter = 'blur(4px)';
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.2s ease';
+
+        var modal = document.createElement('div');
+        modal.style.backgroundColor = 'var(--authme-white, #ffffff)';
+        modal.style.padding = '24px';
+        modal.style.borderRadius = '12px';
+        modal.style.width = '320px';
+        modal.style.boxShadow = '0 10px 30px rgba(0,0,0,0.15)';
+        modal.style.fontFamily = 'Inter, sans-serif';
+        modal.style.transform = 'translateY(20px)';
+        modal.style.transition = 'transform 0.2s ease';
+
+        var titleEl = document.createElement('h3');
+        titleEl.textContent = title;
+        titleEl.style.marginTop = '0';
+        titleEl.style.color = 'var(--authme-text-main, #0f172a)';
+
+        var msgEl = document.createElement('p');
+        msgEl.textContent = message;
+        msgEl.style.color = 'var(--authme-text-muted, #64748b)';
+        msgEl.style.fontSize = '14px';
+
+        var getOut = document.createElement('div');
+        getOut.style.display = 'flex';
+        getOut.style.justifyContent = 'flex-end';
+        getOut.style.gap = '10px';
+        getOut.style.marginTop = '24px';
+
+        var noBtn = document.createElement('button');
+        noBtn.textContent = 'No, Cancel';
+        noBtn.style.padding = '8px 16px';
+        noBtn.style.border = '1px solid var(--authme-border, #e2e8f0)';
+        noBtn.style.backgroundColor = '#f8fafc';
+        noBtn.style.borderRadius = '6px';
+        noBtn.style.cursor = 'pointer';
+        noBtn.style.color = 'var(--authme-text-main, #0f172a)';
+
+        var yesBtn = document.createElement('button');
+        yesBtn.textContent = 'Yes, Logout';
+        yesBtn.style.padding = '8px 16px';
+        yesBtn.style.border = 'none';
+        yesBtn.style.backgroundColor = 'var(--authme-error, #dc2626)';
+        yesBtn.style.color = '#ffffff';
+        yesBtn.style.borderRadius = '6px';
+        yesBtn.style.cursor = 'pointer';
+
+        var closeOverlay = function() {
+            overlay.style.opacity = '0';
+            modal.style.transform = 'translateY(20px)';
+            setTimeout(function() { overlay.remove(); }, 200);
+        };
+
+        noBtn.onclick = closeOverlay;
+        yesBtn.onclick = function() { closeOverlay(); onConfirm(); };
+
+        getOut.appendChild(noBtn);
+        getOut.appendChild(yesBtn);
+        modal.appendChild(titleEl);
+        modal.appendChild(msgEl);
+        modal.appendChild(getOut);
+        overlay.appendChild(modal);
+        document.body.appendChild(overlay);
+
+        // trigger anim
+        requestAnimationFrame(function() {
+            overlay.style.opacity = '1';
+            modal.style.transform = 'translateY(0)';
+        });
+    }
+
+    // Expose for global admin use
+    window.authmeShowAdminConfirm = showAdminConfirm;
+
     /* ── DB Status Renderer ──────────────── */
 
     /**
@@ -187,6 +277,7 @@
         if (refreshBtn) {
             refreshBtn.addEventListener('click', fetchDbStatus);
         }
+
     });
 
 })();

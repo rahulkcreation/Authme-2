@@ -269,24 +269,31 @@ function authme_handle_virtual_page()
         exit;
     }
 
-    // Redirect to homepage with auto-open trigger parameter
+// Redirect to homepage with auto-open trigger parameter
     wp_safe_redirect(home_url('?authme_open=1'));
     exit;
 }
 add_action('template_redirect', 'authme_handle_virtual_page');
 
+/**
+ * Handle universal static logout URL: /?authme_logout=1
+ */
+function authme_handle_universal_logout()
+{
+    if (isset($_GET['authme_logout']) && $_GET['authme_logout'] === '1') {
+        if (is_user_logged_in()) {
+            wp_logout();
+        }
+        wp_safe_redirect(home_url());
+        exit;
+    }
+}
+add_action('template_redirect', 'authme_handle_universal_logout');
+
 /* ──────────────────────────────────────────────
  * WooCommerce Integration
  *
  * Handles non-logged-in users on WooCommerce pages:
- *
- *   Cart page → "Proceed to Checkout" is intercepted by JS
- *               in overlay.js. Popup opens on the cart page.
- *
- *   Checkout page → If not logged in, redirect back to cart
- *                   (user must log in first via popup on cart).
- *
- *   My Account → If not logged in, redirect to homepage
  *                 with ?authme_open=1 so the popup opens
  *                 on the homepage (no WooCommerce forms visible).
  *
