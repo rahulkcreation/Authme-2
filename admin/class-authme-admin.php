@@ -163,7 +163,7 @@ class AuthMe_Admin {
                     'authme-' . $page_slug . '-css',
                     AUTHME_PLUGIN_URL . 'admin/assets/css/' . $page_slug . '.css',
                     array( 'authme-admin-global-css' ),
-                    filemtime( $page_css_file )
+                    time()
                 );
             }
             if ( file_exists( $page_js_file ) ) {
@@ -171,7 +171,7 @@ class AuthMe_Admin {
                     'authme-' . $page_slug . '-js',
                     AUTHME_PLUGIN_URL . 'admin/assets/js/' . $page_slug . '.js',
                     array( 'jquery', 'authme-admin-toaster-js' ),
-                    filemtime( $page_js_file ),
+                    time(),
                     true
                 );
             }

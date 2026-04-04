@@ -1,14 +1,46 @@
-/* AuthMe Admin View Form CSS */
-/* --- User Provided Variables --- */
-        
+<!DOCTYPE html>
+<html lang="en" class="amh-html">
+
+<head class="amh-head">
+    <meta charset="UTF-8" class="amh-meta-charset">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" class="amh-meta-viewport">
+    <title class="amh-title">Application Review</title>
+
+    <style class="amh-style">
+        /* --- User Provided Variables --- */
+        :root {
+            /* Primary colors */
+            --am-d-primary: #F15E74;
+            --am-d-secondary: #2C3E50;
+            --am-d-accent: #2563eb;
+            --am-d-bg: #FAFAFA;
+            --am-d-text: #000000;
+
+            /* Status colors */
+            --am-d-success: #16a34a;
+            --am-d-warning: #f59e0b;
+            --am-d-error: #ea0124;
+
+            /* UI colors */
+            --am-d-white: #ffffff;
+            --am-d-card-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+            --am-d-border-light: #e9eef3;
+            --am-d-border-default: #e2e8f0;
+            --am-d-grey-light-text: #5a6e7c;
+
+            /* Light BGS */
+            --am-d-light-yellow-bg: #fff2dc;
+            --am-d-light-red-bg: #ffe6ea;
+            --am-d-light-green-bg: #d5ffe5;
+        }
 
         /* --- Global Reset & Base Styles --- */
         .amh-body {
             margin: 0;
             padding: 0;
-            background-color: var(--authme-bg);
+            background-color: var(--am-d-bg);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            color: var(--authme-text);
+            color: var(--am-d-text);
             -webkit-font-smoothing: antialiased;
         }
 
@@ -21,14 +53,14 @@
         /* --- Top Header Styles --- */
         .amh-top-header {
             padding: 1.5rem 2rem;
-            background-color: var(--authme-bg);
+            background-color: var(--am-d-bg);
         }
 
         .amh-top-title {
             margin: 0;
             font-size: 1.25rem;
             font-weight: 500;
-            color: var(--authme-text);
+            color: var(--am-d-text);
         }
 
         /* --- Content Container --- */
@@ -41,13 +73,13 @@
 
         /* --- Main Card Layout --- */
         .amh-review-card {
-            background-color: var(--authme-white);
+            background-color: var(--am-d-white);
             width: 100%;
             max-width: 650px;
             border-radius: 12px;
-            box-shadow: var(--authme-card-shadow);
+            box-shadow: var(--am-d-card-shadow);
             padding: 2rem;
-            border: 1px solid var(--authme-border-light);
+            border: 1px solid var(--am-d-border-light);
             display: flex;
             flex-direction: column;
             gap: 2rem;
@@ -59,7 +91,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border-bottom: 1px solid var(--authme-border-default);
+            border-bottom: 1px solid var(--am-d-border-default);
             padding-bottom: 1rem;
         }
 
@@ -77,13 +109,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--authme-secondary);
+            color: var(--am-d-secondary);
             border-radius: 50%;
             transition: background-color 0.2s ease;
         }
 
         .amh-btn-back:hover {
-            background-color: var(--authme-border-light);
+            background-color: var(--am-d-border-light);
         }
 
         .amh-card-title {
@@ -99,7 +131,7 @@
 
         .amh-id-text {
             font-size: 0.875rem;
-            color: var(--authme-grey-light-text);
+            color: var(--am-d-grey-light-text);
             font-weight: 500;
         }
 
@@ -114,8 +146,8 @@
             width: 50px;
             height: 50px;
             border-radius: 50%;
-            background-color: var(--authme-light-red-bg);
-            color: var(--authme-primary);
+            background-color: var(--am-d-light-red-bg);
+            color: var(--am-d-primary);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -139,7 +171,7 @@
         .amh-profile-username {
             margin: 0;
             font-size: 0.875rem;
-            color: var(--authme-grey-light-text);
+            color: var(--am-d-grey-light-text);
         }
 
         /* --- Contact Details Section --- */
@@ -154,7 +186,7 @@
             justify-content: space-between;
             align-items: center;
             padding-bottom: 0.75rem;
-            border-bottom: 1px dashed var(--authme-border-default);
+            border-bottom: 1px dashed var(--am-d-border-default);
             flex-wrap: wrap;
             /* Allows wrapping on very small screens */
             gap: 0.5rem;
@@ -162,13 +194,13 @@
 
         .amh-detail-label {
             font-size: 0.875rem;
-            color: var(--authme-grey-light-text);
+            color: var(--am-d-grey-light-text);
         }
 
         .amh-detail-value {
             font-size: 0.95rem;
             font-weight: 500;
-            color: var(--authme-secondary);
+            color: var(--am-d-secondary);
         }
 
         /* --- Document Section --- */
@@ -182,7 +214,7 @@
             margin: 0;
             font-size: 1rem;
             font-weight: 600;
-            color: var(--authme-secondary);
+            color: var(--am-d-secondary);
         }
 
         .amh-doc-list {
@@ -196,14 +228,14 @@
             align-items: center;
             justify-content: space-between;
             padding: 0.75rem 1rem;
-            background-color: var(--authme-bg);
-            border: 1px solid var(--authme-border-default);
+            background-color: var(--am-d-bg);
+            border: 1px solid var(--am-d-border-default);
             border-radius: 8px;
             transition: border-color 0.2s ease;
         }
 
         .amh-doc-item:hover {
-            border-color: var(--authme-primary);
+            border-color: var(--am-d-primary);
         }
 
         .amh-doc-left {
@@ -215,14 +247,14 @@
         .amh-doc-name {
             font-size: 0.875rem;
             font-weight: 500;
-            color: var(--authme-secondary);
+            color: var(--am-d-secondary);
         }
 
         .amh-btn-view {
             background: none;
             border: none;
             cursor: pointer;
-            color: var(--authme-secondary);
+            color: var(--am-d-secondary);
             padding: 0.25rem;
             display: flex;
             align-items: center;
@@ -230,7 +262,7 @@
         }
 
         .amh-btn-view:hover {
-            color: var(--authme-primary);
+            color: var(--am-d-primary);
         }
 
         /* --- Status Section --- */
@@ -247,8 +279,8 @@
         }
 
         .amh-status-badge {
-            background-color: var(--authme-light-yellow-bg);
-            color: var(--authme-warning);
+            background-color: var(--am-d-light-yellow-bg);
+            color: var(--am-d-warning);
             padding: 0.5rem 1rem;
             border-radius: 6px;
             font-size: 0.875rem;
@@ -267,8 +299,8 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            background-color: var(--authme-primary);
-            color: var(--authme-white);
+            background-color: var(--am-d-primary);
+            color: var(--am-d-white);
             border: none;
             font-size: 1rem;
             font-weight: 600;
@@ -558,64 +590,171 @@
                 align-self: flex-end;
             }
         }
+    </style>
+</head>
 
-/* --- Modal Popup Styles --- */
-.amh-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 100000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+<body class="amh-body">
 
-.amh-modal-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(3px);
-}
+    <div class="amh-main-wrapper">
 
-.amh-modal-content {
-    position: relative;
-    background-color: var(--authme-white);
-    padding: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    max-width: 90vw;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    z-index: 100001;
-}
 
-.amh-modal-close {
-    position: absolute;
-    top: -15px;
-    right: -15px;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background-color: var(--authme-white);
-    color: var(--authme-text);
-    border: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: transform 0.2s ease, color 0.2s ease;
-    z-index: 100002;
-}
 
-.amh-modal-close:hover {
-    transform: scale(1.1);
-    color: var(--authme-primary);
-}
+        <!-- Main Content Area -->
+        <main class="amh-content-container">
 
+            <!-- Professional Card Wrapper -->
+            <article class="amh-review-card">
+
+                <!-- Section 1: Review Header -->
+                <header class="amh-card-header">
+                    <div class="amh-header-left">
+                        <button class="amh-btn-back" aria-label="Go Back">
+                            <!-- Back Arrow Icon -->
+                            <svg class="amh-icon amh-icon-arrow" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <line x1="19" y1="12" x2="5" y2="12" class="amh-svg-line"></line>
+                                <polyline points="12 19 5 12 12 5" class="amh-svg-polyline"></polyline>
+                            </svg>
+                        </button>
+                        <h2 class="amh-card-title">Application Review</h2>
+                    </div>
+
+                </header>
+
+                <!-- Section 2: Profile Info -->
+                <div class="amh-profile-section">
+                    <div class="amh-avatar-circle">
+                        <span class="amh-avatar-initials">RA</span>
+                    </div>
+                    <div class="amh-profile-info">
+                        <h3 class="amh-profile-name">rahul kumar</h3>
+                        <p class="amh-profile-username">@therk1</p>
+                    </div>
+                </div>
+
+                <!-- Section 3: Contact Details -->
+                <div class="amh-details-section">
+                    <div class="amh-detail-row">
+                        <span class="amh-detail-label">Application ID</span>
+                        <span class="amh-detail-value">2</span>
+                    </div>
+
+                    <div class="amh-detail-row">
+                        <span class="amh-detail-label">Email</span>
+                        <span class="amh-detail-value">ss4244510@gmail.com</span>
+                    </div>
+                    <div class="amh-detail-row">
+                        <span class="amh-detail-label">Phone</span>
+                        <span class="amh-detail-value">+91 8512040246</span>
+                    </div>
+                </div>
+
+                <!-- Section 4: Uploaded Documents -->
+                <div class="amh-docs-section">
+                    <h4 class="amh-section-title">Uploaded Documents</h4>
+
+                    <div class="amh-doc-list">
+
+                        <!-- Doc Item 1 -->
+                        <div class="amh-doc-item">
+                            <div class="amh-doc-left">
+                                <svg class="amh-icon amh-icon-file" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                        class="amh-svg-path-1"></path>
+                                    <polyline points="14 2 14 8 20 8" class="amh-svg-polyline-1"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13" class="amh-svg-line-1"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17" class="amh-svg-line-2"></line>
+                                    <polyline points="10 9 9 9 8 9" class="amh-svg-polyline-2"></polyline>
+                                </svg>
+                                <span class="amh-doc-name">Aadhar Front</span>
+                            </div>
+                            <button class="amh-btn-view" aria-label="View Aadhar Front">
+                                <svg class="amh-icon amh-icon-eye" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" class="amh-svg-path-2">
+                                    </path>
+                                    <circle cx="12" cy="12" r="3" class="amh-svg-circle-1"></circle>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Doc Item 2 -->
+                        <div class="amh-doc-item">
+                            <div class="amh-doc-left">
+                                <svg class="amh-icon amh-icon-file" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                        class="amh-svg-path-3"></path>
+                                    <polyline points="14 2 14 8 20 8" class="amh-svg-polyline-3"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13" class="amh-svg-line-3"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17" class="amh-svg-line-4"></line>
+                                    <polyline points="10 9 9 9 8 9" class="amh-svg-polyline-4"></polyline>
+                                </svg>
+                                <span class="amh-doc-name">Aadhar Back</span>
+                            </div>
+                            <button class="amh-btn-view" aria-label="View Aadhar Back">
+                                <svg class="amh-icon amh-icon-eye" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" class="amh-svg-path-4">
+                                    </path>
+                                    <circle cx="12" cy="12" r="3" class="amh-svg-circle-2"></circle>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Doc Item 3 -->
+                        <div class="amh-doc-item">
+                            <div class="amh-doc-left">
+                                <svg class="amh-icon amh-icon-file" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                                        class="amh-svg-path-5"></path>
+                                    <polyline points="14 2 14 8 20 8" class="amh-svg-polyline-5"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13" class="amh-svg-line-5"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17" class="amh-svg-line-6"></line>
+                                    <polyline points="10 9 9 9 8 9" class="amh-svg-polyline-6"></polyline>
+                                </svg>
+                                <span class="amh-doc-name">PAN Card</span>
+                            </div>
+                            <button class="amh-btn-view" aria-label="View PAN Card">
+                                <svg class="amh-icon amh-icon-eye" viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" class="amh-svg-path-6">
+                                    </path>
+                                    <circle cx="12" cy="12" r="3" class="amh-svg-circle-3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Section 5: Application Status -->
+                <div class="amh-status-section">
+                    <h4 class="amh-section-title">Application Status</h4>
+                    <div class="amh-status-badge-wrapper">
+                        <!-- Used warning variables for pending state to make it look professional -->
+                        <span class="amh-status-badge">Pending</span>
+                    </div>
+                </div>
+
+                <!-- Section 6: Update Action -->
+                <div class="amh-action-section">
+                    <button class="amh-btn-update" id="amh-update-btn">
+                        <span class="amh-btn-text">Update Status</span>
+                        <!-- Send / Paper plane Icon -->
+                        <svg class="amh-icon amh-icon-send" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <line x1="22" y1="2" x2="11" y2="13" class="amh-svg-line-7"></line>
+                            <polygon points="22 2 15 22 11 13 2 9 22 2" class="amh-svg-polygon"></polygon>
+                        </svg>
+                    </button>
+                </div>
+
+            </article>
+
+        </main>
+    </div>
+
+</body>
+
+</html>

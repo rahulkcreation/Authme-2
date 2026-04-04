@@ -113,9 +113,14 @@
                 var docUrl = docsObj[key]; // Usually base64 encoded image
 
                 var docHtml = 
-                    '<div class="amv-doc-item">' +
-                        '<div class="amv-doc-name">' + iconDoc + docMap[key] + '</div>' +
-                        '<a href="' + docUrl + '" target="_blank" class="amv-btn-view">View ' + iconExtLink + '</a>' +
+                    '<div class="amh-doc-item">' +
+                        '<div class="amh-doc-left">' +
+                            '<svg class="amh-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>' +
+                            '<span class="amh-doc-name">' + docMap[key] + '</span>' +
+                        '</div>' +
+                        '<button class="amh-btn-view" onclick="amvViewDocument(\'' + docUrl + '\')" aria-label="View Document">' +
+                            '<svg class="amh-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>' +
+                        '</button>' +
                     '</div>';
                 
                 docContainer.insertAdjacentHTML('beforeend', docHtml);
@@ -128,13 +133,19 @@
 
         // Status Badge styling
         var badge = document.getElementById('amv-view-status');
-        badge.className = 'amv-status-badge'; // Reset entirely
+        badge.className = 'amh-status-badge'; // Reset entirely
+        badge.textContent = basicData.status.charAt(0).toUpperCase() + basicData.status.slice(1);
         
-        if (basicData.status === 'pending') badge.classList.add('amv-status-badge-pending');
-        if (basicData.status === 'approved') badge.classList.add('amv-status-badge-approved');
-        if (basicData.status === 'rejected') badge.classList.add('amv-status-badge-rejected');
-        
-        badge.textContent = basicData.status;
+        if (basicData.status === 'pending') {
+            badge.style.backgroundColor = 'var(--authme-light-yellow-bg)';
+            badge.style.color = 'var(--authme-warning)';
+        } else if (basicData.status === 'approved') {
+            badge.style.backgroundColor = 'var(--authme-light-green-bg)';
+            badge.style.color = 'var(--authme-success)';
+        } else if (basicData.status === 'rejected') {
+            badge.style.backgroundColor = 'var(--authme-light-red-bg)';
+            badge.style.color = 'var(--authme-error)';
+        }
 
         // Action Buttons
         var actionWrap = document.getElementById('amv-view-actions');
@@ -142,25 +153,21 @@
 
         if (basicData.status === 'pending') {
             actionWrap.innerHTML = 
-                '<button class="amv-btn-update amv-btn-reject" onclick="amvUpdateHostStatus(' + dbId + ', \'rejected\')">' +
-                    '<svg class="amv-btn-svg" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>' +
-                    'Reject' +
+                '<button class="amh-btn-update" style="background-color: var(--authme-error); flex:1;" onclick="amvUpdateHostStatus(' + dbId + ', \'rejected\')">' +
+                    '<span class="amh-btn-text">Reject</span>' +
                 '</button>' +
-                '<button class="amv-btn-update amv-btn-approve" onclick="amvUpdateHostStatus(' + dbId + ', \'approved\')">' +
-                    '<svg class="amv-btn-svg" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' +
-                    'Approve' +
+                '<button class="amh-btn-update" style="background-color: var(--authme-success); flex:1;" onclick="amvUpdateHostStatus(' + dbId + ', \'approved\')">' +
+                    '<span class="amh-btn-text">Approve</span>' +
                 '</button>';
+            actionWrap.style.gap = '1rem';
+            actionWrap.style.flexDirection = 'row';
         } else {
             var actionText = (basicData.status === 'approved') ? 'Application Approved' : 'Application Rejected';
-            actionWrap.innerHTML = '<div class="amv-action-completed">' + actionText + '</div>';
+            actionWrap.innerHTML = '<div style="font-weight: 500; color: var(--authme-grey-light-text);">' + actionText + '</div>';
         }
 
-        // Show all wraps
-        document.getElementById('amv-profile-wrap').style.display = 'flex';
-        document.getElementById('amv-details-wrap').style.display = 'block';
-        document.getElementById('amv-docs-wrap').style.display = 'block';
-        document.getElementById('amv-status-wrap').style.display = 'block';
-        actionWrap.style.display = 'flex';
+        // Show content area
+        document.getElementById('amv-content-area').style.display = 'flex';
     }
 
     /* ── Action Handler ──────────────────── */
@@ -206,11 +213,7 @@
                     window.authmeShowToaster('Success', 'Application ' + newStatus + ' successfully.');
                 }
                 // Reload the same ID to fetch updated data nicely
-                document.getElementById('amv-profile-wrap').style.display = 'none';
-                document.getElementById('amv-details-wrap').style.display = 'none';
-                document.getElementById('amv-docs-wrap').style.display = 'none';
-                document.getElementById('amv-status-wrap').style.display = 'none';
-                actionsWrap.style.display = 'none';
+                document.getElementById('amv-content-area').style.display = 'none';
                 document.getElementById('amv-loading-state').style.display = 'block';
                 loadApplicationData(id);
             } else {
@@ -229,3 +232,16 @@
     }
 
 })();
+
+
+    // --- Modal Document Viewer --- //
+    window.amvViewDocument = function(url) {
+        var modal = document.getElementById('amh-doc-modal');
+        var img = document.getElementById('amh-modal-image');
+        if (modal && img) {
+            img.src = url;
+            modal.style.display = 'flex';
+        } else {
+            window.open(url, '_blank');
+        }
+    };
