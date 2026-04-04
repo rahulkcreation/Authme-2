@@ -34,7 +34,7 @@ class AuthMe_Admin {
      * Register admin menu and sub-menu pages.
      */
     public function register_admin_menus() {
-        // Main menu: AuthMe Dashboard
+        // Main menu: AuthMe
         add_menu_page(
             'AuthMe',                          // Page title
             'AuthMe',                          // Menu title
@@ -43,6 +43,16 @@ class AuthMe_Admin {
             array( $this, 'render_dashboard' ), // Callback
             'dashicons-lock',                   // Icon
             80                                  // Position
+        );
+
+        // Sub-menu: Dashboard (overrides the auto-generated first submenu "AuthMe")
+        add_submenu_page(
+            'authme',                           // Parent slug
+            'AuthMe Dashboard',                 // Page title
+            'Dashboard',                        // Menu title
+            'manage_options',                   // Capability
+            'authme',                           // Same slug as parent to override
+            array( $this, 'render_dashboard' )  // Callback
         );
 
         // Sub-menu: Database
@@ -91,14 +101,14 @@ class AuthMe_Admin {
             return;
         }
 
-        $global_css_file = AUTHME_PLUGIN_DIR . 'admin/assets/admin-global.css';
+        $global_css_file = AUTHME_PLUGIN_DIR . 'includes/assets/global.css';
         $css_file = AUTHME_PLUGIN_DIR . 'admin/assets/admin.css';
         $js_file  = AUTHME_PLUGIN_DIR . 'admin/assets/admin.js';
 
         if ( file_exists( $global_css_file ) ) {
             wp_enqueue_style(
                 'authme-admin-global-css',
-                AUTHME_PLUGIN_URL . 'admin/assets/admin-global.css',
+                AUTHME_PLUGIN_URL . 'includes/assets/global.css',
                 array(),
                 filemtime( $global_css_file )
             );

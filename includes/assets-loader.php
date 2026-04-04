@@ -6,6 +6,15 @@
  * (CSS, JS, templates, includes) used across the plugin.
  * Every other file references paths from here.
  *
+ * Directory Structure (after rearrangement):
+ *   frontend/assets/css/   — All frontend CSS files
+ *   frontend/assets/js/    — All frontend JS files
+ *   frontend/templates/    — All frontend template files
+ *   includes/assets/       — Global CSS (shared variables)
+ *   includes/              — PHP class files
+ *   admin/assets/          — Admin CSS/JS files
+ *   admin/templates/       — Admin template files
+ *
  * @package AuthMe
  */
 
@@ -38,122 +47,130 @@ class AuthMe_Assets_Loader {
 
         return array(
 
-            /* ── CSS Files ───────────────────── */
+            /* ── Global CSS (shared variables) ──── */
             'css_global'    => array(
-                'dir' => $base_dir . 'assets/css/global.css',
-                'url' => $base_url . 'assets/css/global.css',
+                'dir' => $base_dir . 'includes/assets/global.css',
+                'url' => $base_url . 'includes/assets/global.css',
             ),
+
+            /* ── Frontend CSS Files ─────────────── */
             'css_overlay'   => array(
-                'dir' => $base_dir . 'assets/css/overlay.css',
-                'url' => $base_url . 'assets/css/overlay.css',
+                'dir' => $base_dir . 'frontend/assets/css/overlay.css',
+                'url' => $base_url . 'frontend/assets/css/overlay.css',
             ),
             'css_login'     => array(
-                'dir' => $base_dir . 'assets/css/login.css',
-                'url' => $base_url . 'assets/css/login.css',
+                'dir' => $base_dir . 'frontend/assets/css/login.css',
+                'url' => $base_url . 'frontend/assets/css/login.css',
             ),
             'css_register'  => array(
-                'dir' => $base_dir . 'assets/css/register.css',
-                'url' => $base_url . 'assets/css/register.css',
+                'dir' => $base_dir . 'frontend/assets/css/register.css',
+                'url' => $base_url . 'frontend/assets/css/register.css',
             ),
             'css_forgot_password' => array(
-                'dir' => $base_dir . 'assets/css/forgot-password.css',
-                'url' => $base_url . 'assets/css/forgot-password.css',
+                'dir' => $base_dir . 'frontend/assets/css/forgot-password.css',
+                'url' => $base_url . 'frontend/assets/css/forgot-password.css',
             ),
             'css_new_password'    => array(
-                'dir' => $base_dir . 'assets/css/new-password.css',
-                'url' => $base_url . 'assets/css/new-password.css',
+                'dir' => $base_dir . 'frontend/assets/css/new-password.css',
+                'url' => $base_url . 'frontend/assets/css/new-password.css',
             ),
             'css_host_request' => array(
-                'dir' => $base_dir . 'assets/css/host-request.css',
-                'url' => $base_url . 'assets/css/host-request.css',
+                'dir' => $base_dir . 'frontend/assets/css/host-request.css',
+                'url' => $base_url . 'frontend/assets/css/host-request.css',
             ),
             'css_otp'       => array(
-                'dir' => $base_dir . 'assets/css/otp.css',
-                'url' => $base_url . 'assets/css/otp.css',
+                'dir' => $base_dir . 'frontend/assets/css/otp.css',
+                'url' => $base_url . 'frontend/assets/css/otp.css',
             ),
             'css_toaster'   => array(
-                'dir' => $base_dir . 'assets/css/toaster.css',
-                'url' => $base_url . 'assets/css/toaster.css',
+                'dir' => $base_dir . 'frontend/assets/css/toaster.css',
+                'url' => $base_url . 'frontend/assets/css/toaster.css',
             ),
 
-            /* ── JS Files ────────────────────── */
+            /* ── Frontend JS Files ──────────────── */
             'js_global'     => array(
-                'dir' => $base_dir . 'assets/js/global.js',
-                'url' => $base_url . 'assets/js/global.js',
+                'dir' => $base_dir . 'frontend/assets/js/global.js',
+                'url' => $base_url . 'frontend/assets/js/global.js',
             ),
             'js_toaster'    => array(
-                'dir' => $base_dir . 'assets/js/toaster.js',
-                'url' => $base_url . 'assets/js/toaster.js',
+                'dir' => $base_dir . 'frontend/assets/js/toaster.js',
+                'url' => $base_url . 'frontend/assets/js/toaster.js',
             ),
             'js_overlay'    => array(
-                'dir' => $base_dir . 'assets/js/overlay.js',
-                'url' => $base_url . 'assets/js/overlay.js',
+                'dir' => $base_dir . 'frontend/assets/js/overlay.js',
+                'url' => $base_url . 'frontend/assets/js/overlay.js',
             ),
             'js_login'      => array(
-                'dir' => $base_dir . 'assets/js/login.js',
-                'url' => $base_url . 'assets/js/login.js',
+                'dir' => $base_dir . 'frontend/assets/js/login.js',
+                'url' => $base_url . 'frontend/assets/js/login.js',
             ),
             'js_country_phone_regex' => array(
-                'dir' => $base_dir . 'assets/js/country-phone-regex.js',
-                'url' => $base_url . 'assets/js/country-phone-regex.js',
+                'dir' => $base_dir . 'frontend/assets/js/country-phone-regex.js',
+                'url' => $base_url . 'frontend/assets/js/country-phone-regex.js',
             ),
             'js_register'   => array(
-                'dir' => $base_dir . 'assets/js/register.js',
-                'url' => $base_url . 'assets/js/register.js',
+                'dir' => $base_dir . 'frontend/assets/js/register.js',
+                'url' => $base_url . 'frontend/assets/js/register.js',
             ),
             'js_forgot_password' => array(
-                'dir' => $base_dir . 'assets/js/forgot-password.js',
-                'url' => $base_url . 'assets/js/forgot-password.js',
+                'dir' => $base_dir . 'frontend/assets/js/forgot-password.js',
+                'url' => $base_url . 'frontend/assets/js/forgot-password.js',
             ),
             'js_new_password'    => array(
-                'dir' => $base_dir . 'assets/js/new-password.js',
-                'url' => $base_url . 'assets/js/new-password.js',
+                'dir' => $base_dir . 'frontend/assets/js/new-password.js',
+                'url' => $base_url . 'frontend/assets/js/new-password.js',
             ),
             'js_host_request' => array(
-                'dir' => $base_dir . 'assets/js/host-request.js',
-                'url' => $base_url . 'assets/js/host-request.js',
+                'dir' => $base_dir . 'frontend/assets/js/host-request.js',
+                'url' => $base_url . 'frontend/assets/js/host-request.js',
             ),
             'js_otp'        => array(
-                'dir' => $base_dir . 'assets/js/otp.js',
-                'url' => $base_url . 'assets/js/otp.js',
+                'dir' => $base_dir . 'frontend/assets/js/otp.js',
+                'url' => $base_url . 'frontend/assets/js/otp.js',
             ),
 
-            /* ── Template Files ──────────────── */
+            /* ── Frontend Template Files ────────── */
             'tpl_overlay'   => array(
-                'dir' => $base_dir . 'templates/overlay.php',
+                'dir' => $base_dir . 'frontend/templates/overlay.php',
             ),
             'tpl_login'     => array(
-                'dir' => $base_dir . 'templates/login.php',
+                'dir' => $base_dir . 'frontend/templates/login.php',
             ),
             'tpl_register'  => array(
-                'dir' => $base_dir . 'templates/register.php',
+                'dir' => $base_dir . 'frontend/templates/register.php',
             ),
             'tpl_otp'       => array(
-                'dir' => $base_dir . 'templates/otp.php',
+                'dir' => $base_dir . 'frontend/templates/otp.php',
             ),
             'tpl_toaster'   => array(
-                'dir' => $base_dir . 'templates/toaster.php',
+                'dir' => $base_dir . 'frontend/templates/toaster.php',
             ),
             'tpl_forgot_password' => array(
-                'dir' => $base_dir . 'templates/forgot-password.php',
+                'dir' => $base_dir . 'frontend/templates/forgot-password.php',
             ),
             'tpl_new_password'    => array(
-                'dir' => $base_dir . 'templates/new-password.php',
+                'dir' => $base_dir . 'frontend/templates/new-password.php',
             ),
             'tpl_host_request'    => array(
-                'dir' => $base_dir . 'templates/host-request.php',
+                'dir' => $base_dir . 'frontend/templates/host-request.php',
             ),
             'tpl_email_password_changed' => array(
-                'dir' => $base_dir . 'templates/email-password-changed.php',
+                'dir' => $base_dir . 'frontend/templates/email-password-changed.php',
             ),
             'tpl_email_otp' => array(
-                'dir' => $base_dir . 'templates/email-otp.php',
+                'dir' => $base_dir . 'frontend/templates/email-otp.php',
+            ),
+            'tpl_email_host_approved' => array(
+                'dir' => $base_dir . 'frontend/templates/email-host-approved.php',
+            ),
+            'tpl_email_host_rejected' => array(
+                'dir' => $base_dir . 'frontend/templates/email-host-rejected.php',
             ),
 
-            /* ── Admin Files ─────────────────── */
+            /* ── Admin CSS/JS Files ─────────────── */
             'admin_global_css' => array(
-                'dir' => $base_dir . 'admin/assets/admin-global.css',
-                'url' => $base_url . 'admin/assets/admin-global.css',
+                'dir' => $base_dir . 'includes/assets/global.css',
+                'url' => $base_url . 'includes/assets/global.css',
             ),
             'admin_css'     => array(
                 'dir' => $base_dir . 'admin/assets/admin.css',
@@ -163,16 +180,40 @@ class AuthMe_Assets_Loader {
                 'dir' => $base_dir . 'admin/assets/admin.js',
                 'url' => $base_url . 'admin/assets/admin.js',
             ),
+            'admin_dashboard_css' => array(
+                'dir' => $base_dir . 'admin/assets/dashboard.css',
+                'url' => $base_url . 'admin/assets/dashboard.css',
+            ),
+            'admin_dashboard_js'  => array(
+                'dir' => $base_dir . 'admin/assets/dashboard.js',
+                'url' => $base_url . 'admin/assets/dashboard.js',
+            ),
+            'admin_host_requests_css' => array(
+                'dir' => $base_dir . 'admin/assets/host-requests.css',
+                'url' => $base_url . 'admin/assets/host-requests.css',
+            ),
+            'admin_host_requests_js'  => array(
+                'dir' => $base_dir . 'admin/assets/host-requests.js',
+                'url' => $base_url . 'admin/assets/host-requests.js',
+            ),
+
+            /* ── Admin Template Files ───────────── */
             'admin_dashboard' => array(
                 'dir' => $base_dir . 'admin/templates/dashboard.php',
             ),
             'admin_database'  => array(
                 'dir' => $base_dir . 'admin/templates/database.php',
             ),
+            'admin_host_requests' => array(
+                'dir' => $base_dir . 'admin/templates/host-requests.php',
+            ),
 
-            /* ── Include Files ───────────────── */
+            /* ── Include (PHP Class) Files ──────── */
             'inc_db'        => array(
                 'dir' => $base_dir . 'includes/class-authme-db.php',
+            ),
+            'inc_db_schema' => array(
+                'dir' => $base_dir . 'includes/db-schema.php',
             ),
             'inc_auth'      => array(
                 'dir' => $base_dir . 'includes/class-authme-auth.php',

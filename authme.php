@@ -34,6 +34,7 @@ require_once AUTHME_PLUGIN_DIR . 'vendor/autoload.php';
  * Include Files
  * ────────────────────────────────────────────── */
 require_once AUTHME_PLUGIN_DIR . 'includes/assets-loader.php';
+require_once AUTHME_PLUGIN_DIR . 'includes/db-schema.php';
 require_once AUTHME_PLUGIN_DIR . 'includes/class-authme-db.php';
 require_once AUTHME_PLUGIN_DIR . 'includes/class-authme-email.php';
 require_once AUTHME_PLUGIN_DIR . 'includes/class-authme-otp.php';
@@ -157,8 +158,8 @@ function authme_inject_overlay_in_footer()
     }
 
     // Include the toaster + overlay templates
-    include AUTHME_PLUGIN_DIR . 'templates/toaster.php';
-    include AUTHME_PLUGIN_DIR . 'templates/overlay.php';
+    include AUTHME_PLUGIN_DIR . 'frontend/templates/toaster.php';
+    include AUTHME_PLUGIN_DIR . 'frontend/templates/overlay.php';
 
     // Auto-open if ?authme_open=1 is in the URL (from /authme redirect)
     if (isset($_GET['authme_open']) && $_GET['authme_open'] === '1') {
@@ -176,8 +177,8 @@ function authme_inject_host_request_modal()
     // The Host Request modal is available for both logged-in and guest users.
     // It only gets injected and auto-opened if ?become-host is in the URL to save DOM size.
     if (isset($_GET['become-host'])) {
-        include AUTHME_PLUGIN_DIR . 'templates/toaster.php'; // In case it's not already included
-        include AUTHME_PLUGIN_DIR . 'templates/host-request.php';
+        include AUTHME_PLUGIN_DIR . 'frontend/templates/toaster.php'; // In case it's not already included
+        include AUTHME_PLUGIN_DIR . 'frontend/templates/host-request.php';
         echo '<script>document.addEventListener("DOMContentLoaded",function(){if(typeof authmeOpenHostModal==="function"){authmeOpenHostModal();}});</script>';
     }
 }

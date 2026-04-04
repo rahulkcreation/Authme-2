@@ -1,0 +1,35 @@
+/* ============================================
+ * AuthMe Admin Global CSS Variables
+ * ============================================
+ *
+ * This file contains ONLY CSS custom properties
+ * (colors, shadows, etc.) for the admin panel.
+ *
+ * @package AuthMe
+ * ============================================ */
+
+ :root {
+            /* Primary colors */
+            --authme-primary: #F15E74;
+            --authme-secondary: #2C3E50;
+            --authme-accent: #2563eb;
+            --authme-bg: #FAFAFA;
+            --authme-text: #000000;
+
+            /* Status colors */
+            --authme-success: #16a34a;
+            --authme-warning: #f59e0b;
+            --authme-error: #ea0124;
+
+            /* UI colors */
+            --authme-white: #ffffff;
+            --authme-card-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+            --authme-border-light: #e9eef3;
+            --authme-border-default: #e2e8f0;
+            --authme-grey-light-text: #5a6e7c;
+
+            /* Light BGS */
+            --authme-light-yellow-bg: #fff2dc;
+            --authme-light-red-bg: #ffe6ea;
+            --authme-light-green-bg: #d5ffe5;
+        }
