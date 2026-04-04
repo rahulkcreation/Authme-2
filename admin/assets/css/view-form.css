@@ -392,10 +392,6 @@
         @media (max-width: 480px) {
             .amh-review-card {
                 padding: 1rem;
-                border-radius: 0;
-                border: none;
-                box-shadow: none;
-                background-color: transparent;
                 gap: 1.5rem;
             }
 
