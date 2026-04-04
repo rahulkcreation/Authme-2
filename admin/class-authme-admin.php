@@ -102,8 +102,8 @@ class AuthMe_Admin {
         }
 
         $global_css_file = AUTHME_PLUGIN_DIR . 'includes/assets/global.css';
-        $css_file = AUTHME_PLUGIN_DIR . 'admin/assets/admin.css';
-        $js_file  = AUTHME_PLUGIN_DIR . 'admin/assets/admin.js';
+        $css_file = AUTHME_PLUGIN_DIR . 'admin/assets/css/admin.css';
+        $js_file  = AUTHME_PLUGIN_DIR . 'admin/assets/js/admin.js';
 
         if ( file_exists( $global_css_file ) ) {
             wp_enqueue_style(
@@ -117,7 +117,7 @@ class AuthMe_Admin {
         if ( file_exists( $css_file ) ) {
             wp_enqueue_style(
                 'authme-admin-css',
-                AUTHME_PLUGIN_URL . 'admin/assets/admin.css',
+                AUTHME_PLUGIN_URL . 'admin/assets/css/admin.css',
                 array( 'authme-admin-global-css' ),
                 filemtime( $css_file )
             );
@@ -126,7 +126,7 @@ class AuthMe_Admin {
         if ( file_exists( $js_file ) ) {
             wp_enqueue_script(
                 'authme-admin-js',
-                AUTHME_PLUGIN_URL . 'admin/assets/admin.js',
+                AUTHME_PLUGIN_URL . 'admin/assets/js/admin.js',
                 array( 'jquery' ),
                 filemtime( $js_file ),
                 true
@@ -142,13 +142,13 @@ class AuthMe_Admin {
         // e.g., toplevel_page_authme -> dashboard, authme_page_authme-database -> database
         $page_slug = str_replace( array('toplevel_page_authme', 'authme_page_authme-'), array('dashboard', ''), $hook );
         if ( !empty($page_slug) && $page_slug !== $hook ) {
-            $page_css_file = AUTHME_PLUGIN_DIR . 'admin/assets/' . $page_slug . '.css';
-            $page_js_file  = AUTHME_PLUGIN_DIR . 'admin/assets/' . $page_slug . '.js';
+            $page_css_file = AUTHME_PLUGIN_DIR . 'admin/assets/css/' . $page_slug . '.css';
+            $page_js_file  = AUTHME_PLUGIN_DIR . 'admin/assets/js/' . $page_slug . '.js';
 
             if ( file_exists( $page_css_file ) ) {
                 wp_enqueue_style(
                     'authme-' . $page_slug . '-css',
-                    AUTHME_PLUGIN_URL . 'admin/assets/' . $page_slug . '.css',
+                    AUTHME_PLUGIN_URL . 'admin/assets/css/' . $page_slug . '.css',
                     array( 'authme-admin-global-css' ),
                     filemtime( $page_css_file )
                 );
@@ -156,7 +156,7 @@ class AuthMe_Admin {
             if ( file_exists( $page_js_file ) ) {
                 wp_enqueue_script(
                     'authme-' . $page_slug . '-js',
-                    AUTHME_PLUGIN_URL . 'admin/assets/' . $page_slug . '.js',
+                    AUTHME_PLUGIN_URL . 'admin/assets/js/' . $page_slug . '.js',
                     array( 'jquery', 'authme-admin-js' ),
                     filemtime( $page_js_file ),
                     true

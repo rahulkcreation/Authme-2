@@ -173,28 +173,28 @@ class AuthMe_Assets_Loader {
                 'url' => $base_url . 'includes/assets/global.css',
             ),
             'admin_css'     => array(
-                'dir' => $base_dir . 'admin/assets/admin.css',
-                'url' => $base_url . 'admin/assets/admin.css',
+                'dir' => $base_dir . 'admin/assets/css/admin.css',
+                'url' => $base_url . 'admin/assets/css/admin.css',
             ),
             'admin_js'      => array(
-                'dir' => $base_dir . 'admin/assets/admin.js',
-                'url' => $base_url . 'admin/assets/admin.js',
+                'dir' => $base_dir . 'admin/assets/js/admin.js',
+                'url' => $base_url . 'admin/assets/js/admin.js',
             ),
             'admin_dashboard_css' => array(
-                'dir' => $base_dir . 'admin/assets/dashboard.css',
-                'url' => $base_url . 'admin/assets/dashboard.css',
+                'dir' => $base_dir . 'admin/assets/css/dashboard.css',
+                'url' => $base_url . 'admin/assets/css/dashboard.css',
             ),
             'admin_dashboard_js'  => array(
-                'dir' => $base_dir . 'admin/assets/dashboard.js',
-                'url' => $base_url . 'admin/assets/dashboard.js',
+                'dir' => $base_dir . 'admin/assets/js/dashboard.js',
+                'url' => $base_url . 'admin/assets/js/dashboard.js',
             ),
             'admin_host_requests_css' => array(
-                'dir' => $base_dir . 'admin/assets/host-requests.css',
-                'url' => $base_url . 'admin/assets/host-requests.css',
+                'dir' => $base_dir . 'admin/assets/css/host-requests.css',
+                'url' => $base_url . 'admin/assets/css/host-requests.css',
             ),
             'admin_host_requests_js'  => array(
-                'dir' => $base_dir . 'admin/assets/host-requests.js',
-                'url' => $base_url . 'admin/assets/host-requests.js',
+                'dir' => $base_dir . 'admin/assets/js/host-requests.js',
+                'url' => $base_url . 'admin/assets/js/host-requests.js',
             ),
 
             /* ── Admin Template Files ───────────── */
