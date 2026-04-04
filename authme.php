@@ -4,7 +4,7 @@
  * Plugin Name: AuthMe
  * Plugin URI: https://arttechfuzion.com
  * Description: A comprehensive WordPress authentication plugin with OTP verification for secure registration and login.
- * Version: 1.7.0
+ * Version: 1.8.0
  * Author: Art-Tech Fuzion
  * Author URI: https://arttechfuzion.com
  * Text Domain: authme
@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
 /* ──────────────────────────────────────────────
  * Constants
  * ────────────────────────────────────────────── */
-define('AUTHME_VERSION', '1.7.0');
+define('AUTHME_VERSION', '1.8.0');
 define('AUTHME_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('AUTHME_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('AUTHME_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -155,6 +155,14 @@ add_action('wp_footer', 'authme_inject_host_request_modal');
 
 function authme_inject_host_request_modal()
 {
+    // If the user is already logged in and has the 'host' role, do not show the modal.
+    if (is_user_logged_in()) {
+        $user = wp_get_current_user();
+        if (in_array('host', (array) $user->roles)) {
+            return;
+        }
+    }
+
     // The Host Request modal is available for both logged-in and guest users.
     // It only gets injected and auto-opened if ?become-host is in the URL to save DOM size.
     if (isset($_GET['become-host'])) {
@@ -187,6 +195,7 @@ $ajax_actions = array(
     'authme_check_host_username'   => array($authme_host, 'ajax_check_host_username'),
     'authme_check_host_email'      => array($authme_host, 'ajax_check_host_email'),
     'authme_check_host_mobile'     => array($authme_host, 'ajax_check_host_mobile'),
+    'authme_upload_host_document'  => array($authme_host, 'ajax_upload_host_document'),
     'authme_submit_host_request'   => array($authme_host, 'ajax_submit_host_request'),
 );
 

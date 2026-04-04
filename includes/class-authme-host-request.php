@@ -29,6 +29,68 @@ class AuthMe_Host_Request {
     /* ──────────────────────────────────────── */
 
     /**
+     * AJAX handler: Upload a host document (identity verification).
+     * Saves file to server and returns the URL.
+     */
+    public function ajax_upload_host_document() {
+        check_ajax_referer( 'authme_nonce', 'nonce' );
+
+        if ( empty( $_FILES['document'] ) ) {
+            wp_send_json_error( array( 'message' => 'No file uploaded.' ) );
+        }
+
+        $file = $_FILES['document'];
+
+        // Initial validation
+        if ( ! in_array( $file['type'], array( 'image/jpeg', 'image/jpg' ) ) ) {
+            wp_send_json_error( array( 'message' => 'Only JPEG images are allowed.' ) );
+        }
+
+        if ( $file['size'] > 1048576 ) { // 1MB
+            wp_send_json_error( array( 'message' => 'File size exceeds 1MB limit.' ) );
+        }
+
+        // Use WordPress's wp_handle_upload for secure processing
+        if ( ! function_exists( 'wp_handle_upload' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/file.php';
+        }
+
+        $upload_overrides = array( 'test_form' => false );
+        $movefile = wp_handle_upload( $file, $upload_overrides );
+
+        if ( $movefile && ! isset( $movefile['error'] ) ) {
+            // Register the file in the Media Library (so it shows in Media > Library)
+            if ( ! function_exists( 'wp_insert_attachment' ) ) {
+                require_once ABSPATH . 'wp-admin/includes/image.php';
+            }
+
+            $attachment = array(
+                'guid'           => $movefile['url'], 
+                'post_mime_type' => $movefile['type'],
+                'post_title'     => preg_replace( '/\.[^.]+$/', '', basename( $movefile['file'] ) ),
+                'post_content'   => '',
+                'post_status'    => 'inherit'
+            );
+
+            $attach_id = wp_insert_attachment( $attachment, $movefile['file'] );
+
+            // Generate metadata for the attachment (for thumbnails, etc.)
+            $attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
+            wp_update_attachment_metadata( $attach_id, $attach_data );
+
+            wp_send_json_success( array(
+                'url' => $movefile['url'],
+                'attachment_id' => $attach_id,
+                'message' => 'File uploaded and registered successfully.'
+            ) );
+        } else {
+            wp_send_json_error( array( 'message' => $movefile['error'] ) );
+        }
+    }
+
+    /* ──────────────────────────────────────── */
+
+    /**
      * AJAX handler: Check if username is available.
      * Reuses validation logic similar to regular registration.
      */

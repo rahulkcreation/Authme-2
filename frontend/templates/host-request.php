@@ -91,6 +91,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div class="authme-host-upload-placeholder">
                             <span>Click to upload JPEG (Max 1MB)</span>
                         </div>
+                        <div class="authme-host-progress-wrap" style="display:none;">
+                            <div class="authme-host-progress-bar"></div>
+                        </div>
                         <div class="authme-host-upload-preview" style="display:none;">
                             <img src="" alt="Aadhar Front Preview">
                             <button type="button" class="authme-host-remove-file" aria-label="Remove file">×</button>
@@ -107,6 +110,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <div class="authme-host-upload-placeholder">
                             <span>Click to upload JPEG (Max 1MB)</span>
                         </div>
+                        <div class="authme-host-progress-wrap" style="display:none;">
+                            <div class="authme-host-progress-bar"></div>
+                        </div>
                         <div class="authme-host-upload-preview" style="display:none;">
                             <img src="" alt="Aadhar Back Preview">
                             <button type="button" class="authme-host-remove-file" aria-label="Remove file">×</button>
@@ -122,6 +128,9 @@ if ( ! defined( 'ABSPATH' ) ) {
                         <input type="file" id="authme-host-pan" accept=".jpg,.jpeg" class="authme-host-file-input">
                         <div class="authme-host-upload-placeholder">
                             <span>Click to upload JPEG (Max 1MB)</span>
+                        </div>
+                        <div class="authme-host-progress-wrap" style="display:none;">
+                            <div class="authme-host-progress-bar"></div>
                         </div>
                         <div class="authme-host-upload-preview" style="display:none;">
                             <img src="" alt="PAN Card Preview">

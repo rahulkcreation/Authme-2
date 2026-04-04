@@ -290,6 +290,8 @@
         if (!input) return;
         
         var area = input.closest('.authme-host-upload-area');
+        var progressWrap = area.querySelector('.authme-host-progress-wrap');
+        var progressBar = area.querySelector('.authme-host-progress-bar');
         var preview = area.querySelector('.authme-host-upload-preview');
         var img = preview.querySelector('img');
         var removeBtn = preview.querySelector('.authme-host-remove-file');
@@ -317,17 +319,59 @@
             // Clear errors
             if (msgEl) { msgEl.textContent = ''; msgEl.classList.remove('authme-host-msg-error'); }
 
-            // Base64 encode
-            var reader = new FileReader();
-            reader.onload = function(evt) {
-                var base64 = evt.target.result;
-                hostState.files[stateKey] = base64;
-                img.src = base64;
-                preview.style.display = 'block';
-                checkStep2();
-            };
-            reader.readAsDataURL(file);
+            // Start Upload
+            uploadFile(file);
         });
+
+        function uploadFile(file) {
+            var formData = new FormData();
+            formData.append('action', 'authme_upload_host_document');
+            formData.append('nonce', authme_ajax.nonce);
+            formData.append('document', file);
+
+            var xhr = new XMLHttpRequest();
+            
+            // Show progress
+            progressWrap.style.display = 'block';
+            progressBar.style.width = '0%';
+            input.disabled = true; // Prevent double upload
+
+            xhr.upload.addEventListener('progress', function(e) {
+                if (e.lengthComputable) {
+                    var percent = Math.round((e.loaded / e.total) * 100);
+                    progressBar.style.width = percent + '%';
+                }
+            });
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    progressWrap.style.display = 'none';
+                    input.disabled = false;
+
+                    if (xhr.status === 200) {
+                        try {
+                            var res = JSON.parse(xhr.responseText);
+                            if (res.success) {
+                                var url = res.data.url;
+                                hostState.files[stateKey] = url;
+                                img.src = url;
+                                preview.style.display = 'block';
+                                checkStep2();
+                            } else {
+                                showError(res.data.message || 'Upload failed.');
+                            }
+                        } catch (e) {
+                            showError('Server error. Please try again.');
+                        }
+                    } else {
+                        showError('Network error.');
+                    }
+                }
+            };
+
+            xhr.open('POST', authme_ajax.ajax_url, true);
+            xhr.send(formData);
+        }
 
         removeBtn.addEventListener('click', function(e) {
             e.stopPropagation();
