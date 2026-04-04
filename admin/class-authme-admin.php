@@ -138,6 +138,28 @@ class AuthMe_Admin {
             ) );
         }
 
+        $toaster_css = AUTHME_PLUGIN_DIR . 'admin/assets/css/admin-toaster.css';
+        $toaster_js  = AUTHME_PLUGIN_DIR . 'admin/assets/js/admin-toaster.js';
+
+        if ( file_exists( $toaster_css ) ) {
+            wp_enqueue_style(
+                'authme-admin-toaster-css',
+                AUTHME_PLUGIN_URL . 'admin/assets/css/admin-toaster.css',
+                array( 'authme-admin-global-css' ),
+                filemtime( $toaster_css )
+            );
+        }
+
+        if ( file_exists( $toaster_js ) ) {
+            wp_enqueue_script(
+                'authme-admin-toaster-js',
+                AUTHME_PLUGIN_URL . 'admin/assets/js/admin-toaster.js',
+                array(),
+                filemtime( $toaster_js ),
+                true
+            );
+        }
+
         // Dynamically load page-specific CSS/JS if they exist (based on menu slug)
         // e.g., toplevel_page_authme -> dashboard, authme_page_authme-database -> database
         $page_slug = str_replace( array('toplevel_page_authme', 'authme_page_authme-'), array('dashboard', ''), $hook );
@@ -157,11 +179,30 @@ class AuthMe_Admin {
                 wp_enqueue_script(
                     'authme-' . $page_slug . '-js',
                     AUTHME_PLUGIN_URL . 'admin/assets/js/' . $page_slug . '.js',
-                    array( 'jquery', 'authme-admin-js' ),
+                    array( 'jquery', 'authme-admin-js', 'authme-admin-toaster-js' ),
                     filemtime( $page_js_file ),
                     true
                 );
             }
+        }
+
+        // Hook to render toaster at the bottom of the page
+        add_action( 'admin_footer', array( $this, 'render_admin_toaster' ) );
+    }
+
+    /**
+     * Render the global admin toaster component
+     */
+    public function render_admin_toaster() {
+        // Ensure this only runs on AuthMe pages
+        $screen = get_current_screen();
+        if ( ! $screen || strpos( $screen->id, 'authme' ) === false ) {
+            return;
+        }
+
+        $toaster_file = AUTHME_PLUGIN_DIR . 'admin/templates/admin-toaster.php';
+        if ( file_exists( $toaster_file ) ) {
+            include $toaster_file;
         }
     }
 
@@ -235,9 +276,11 @@ class AuthMe_Admin {
         $status_after = $db->check_table_status();
 
         if ( $status_after['all_good'] ) {
-            $msg = ( $status_before['otp_table']['exists'] || $status_before['host_table']['exists'] )
-                ? 'Tables updated successfully.'
-                : 'Tables created successfully.';
+            if ( ! $status_before['otp_table']['exists'] || ! $status_before['host_table']['exists'] ) {
+                $msg = 'Create tables successfully';
+            } else {
+                $msg = 'Updated successfully';
+            }
 
             wp_send_json_success( array(
                 'message' => $msg,

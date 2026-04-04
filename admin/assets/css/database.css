@@ -1,290 +1,333 @@
 /* ============================================
  * AuthMe Admin — Database Management Styles
  * ============================================
- *
- * Scoped to #am-database using am-db-* class prefix.
- * All colors use CSS variables from global.css.
+ * 
+ * Uses CSS variables from global.css.
  * Zero hardcoded color codes.
  *
  * @package AuthMe
  * ============================================ */
 
-/* ── Container ──────────────────────────── */
-#am-database {
-    max-width: 1000px;
+/* Container */
+.am-d-container {
+    max-width: 100%;
     margin: 20px 20px 20px 0;
-    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, sans-serif;
-    color: var(--authme-text);
-    line-height: 1.5;
 }
 
-/* ── Title ──────────────────────────────── */
-#am-database .am-title {
-    font-size: 2rem;
-    font-weight: 600;
-    color: var(--authme-secondary);
-    letter-spacing: -0.01em;
-    margin-bottom: 0.25rem;
-}
-
-#am-database .am-subhead {
-    color: var(--authme-grey-light-text);
-    border-left: 3px solid var(--authme-primary);
-    padding-left: 1rem;
-    margin-top: 0.25rem;
-    margin-bottom: 1.5rem;
-    font-size: 0.95rem;
-}
-
-#am-database .am-heading {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--authme-secondary);
-    letter-spacing: -0.01em;
-    margin-bottom: 0.75rem;
-}
-
-/* ── Card ───────────────────────────────── */
-#am-database .am-card {
-    background: var(--authme-white);
-    border-radius: 1.25rem;
+/* Header Styles */
+.am-d-header {
+    margin-bottom: 20px;
+    background-color: var(--authme-white);
+    padding: 16px;
+    border-radius: 12px;
     box-shadow: var(--authme-card-shadow);
-    padding: 1.5rem;
     border: 1px solid var(--authme-border-light);
-    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-/* ── Text ───────────────────────────────── */
-#am-database .am-text {
-    color: var(--authme-text);
-    font-size: 0.9rem;
-    line-height: 1.6;
-    margin-bottom: 0.75rem;
+.am-d-header-icon {
+    font-size: 28px;
+    background-color: var(--authme-light-red-bg);
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    color: var(--authme-primary);
+    flex-shrink: 0;
 }
 
-#am-database .am-text:last-child {
-    margin-bottom: 0;
+.am-d-header-icon svg {
+    width: 24px;
+    height: 24px;
 }
 
-#am-database .am-text-bold {
-    font-weight: 600;
+.am-d-header-content {
+    flex: 1;
+    min-width: 200px;
+}
+
+.am-d-header-title {
     color: var(--authme-secondary);
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
 }
 
-#am-database .am-text-secondary {
+.am-d-header-subtitle {
     color: var(--authme-grey-light-text);
-    font-size: 0.8rem;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
-/* ── Status Table ───────────────────────── */
-#am-database .am-db-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 0.9rem;
+/* Section Title */
+.am-d-section-title {
+    color: var(--authme-secondary);
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-left: 4px;
 }
 
-#am-database .am-db-table th {
-    text-align: left;
-    padding: 0.75rem 1rem;
+/* Card Styles */
+.am-d-card {
+    background-color: var(--authme-white);
+    border-radius: 10px;
+    box-shadow: var(--authme-card-shadow);
+    border: 1px solid var(--authme-border-light);
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.am-d-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--authme-card-shadow);
+}
+
+.am-d-card-header {
+    background-color: var(--authme-white);
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--authme-border-default);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.am-d-card-title {
+    font-size: 14px;
     font-weight: 600;
     color: var(--authme-secondary);
-    border-bottom: 2px solid var(--authme-border-light);
-    font-size: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.am-d-badge {
+    font-size: 10px;
+    font-weight: 600;
+    background-color: var(--authme-border-light);
+    color: var(--authme-grey-light-text);
+    padding: 3px 8px;
+    border-radius: 50px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
 }
 
-#am-database .am-db-table td {
-    padding: 0.6rem 1rem;
-    border-bottom: 1px solid var(--authme-border-light);
-    vertical-align: middle;
+.am-d-card-body {
+    padding: 8px 14px;
 }
 
-#am-database .am-db-table tr:last-child td {
+/* List Items */
+.am-d-field-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px dashed var(--authme-border-light);
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.am-d-field-row:last-child {
     border-bottom: none;
 }
 
-/* Table name row - slightly bolder */
-#am-database .am-db-table-row {
-    font-weight: 600;
-    color: var(--authme-secondary);
-}
-
-/* Column name row - indented */
-#am-database .am-db-col-name {
-    padding-left: 2.5rem;
-    font-family: monospace;
-    font-size: 0.85rem;
-    color: var(--authme-secondary);
-}
-
-#am-database .am-db-col-arrow {
-    color: var(--authme-grey-light-text);
-    margin-right: 0.4rem;
-}
-
-/* ── Status Badges ──────────────────────── */
-#am-database .am-db-status-ok {
-    color: var(--authme-success);
-    font-weight: 600;
-    font-size: 0.85rem;
-}
-
-#am-database .am-db-status-missing {
-    color: var(--authme-error);
-    font-weight: 600;
-    font-size: 0.85rem;
-}
-
-/* ── All Good Banner ────────────────────── */
-#am-database .am-db-banner-ok {
-    background: var(--authme-light-green-bg);
-    color: var(--authme-success);
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    text-align: center;
-}
-
-#am-database .am-db-banner-warn {
-    background: var(--authme-light-red-bg);
-    color: var(--authme-error);
-    padding: 0.75rem 1rem;
-    border-radius: 0.75rem;
-    font-weight: 600;
-    font-size: 0.9rem;
-    margin-top: 1rem;
-    text-align: center;
-}
-
-/* ── Loading Text ───────────────────────── */
-#am-database .am-db-loading {
-    color: var(--authme-grey-light-text);
-    font-size: 0.9rem;
-    padding: 1rem 0;
-}
-
-/* ── Action Buttons ─────────────────────── */
-#am-database .am-db-actions {
+.am-d-field-info {
     display: flex;
-    gap: 0.75rem;
+    align-items: center;
+    gap: 10px;
     flex-wrap: wrap;
-    margin-top: 0.5rem;
 }
 
-#am-database .am-db-btn-create {
+.am-d-field-arrow {
+    color: var(--authme-border-default);
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.am-d-field-name {
+    background-color: var(--authme-bg);
+    border: 1px solid var(--authme-border-default);
+    color: var(--authme-secondary);
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+    font-size: 12px;
+    font-weight: 500;
+    word-break: break-all;
+}
+
+/* Status Indicators */
+.am-d-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: var(--authme-light-green-bg);
+    color: var(--authme-success);
+    padding: 4px 10px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.am-d-status.primary {
+    background-color: var(--authme-light-red-bg);
+    color: var(--authme-primary);
+}
+
+.am-d-status.error {
+    background-color: var(--authme-light-red-bg);
+    color: var(--authme-error);
+}
+
+.am-d-status-icon {
+    width: 12px;
+    height: 12px;
+    stroke-width: 3;
+    flex-shrink: 0;
+}
+
+/* Loading State */
+.am-d-loading-state {
+    text-align: center;
+    padding: 40px;
+    color: var(--authme-grey-light-text);
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Footer Actions */
+.am-d-action-bar {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--authme-border-default);
+    flex-wrap: wrap;
+}
+
+.am-d-btn {
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: none;
+    flex: 1;
+    min-width: 140px;
+}
+
+.am-d-btn-primary {
     background-color: var(--authme-primary);
     color: var(--authme-white);
-    border: none;
-    padding: 0.6rem 1.25rem;
-    border-radius: 0.5rem;
-    font-weight: 600;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
 }
 
-#am-database .am-db-btn-create:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
+.am-d-btn-primary:hover {
+    transform: translateY(-2px);
 }
 
-#am-database .am-db-btn-create:disabled {
+.am-d-btn-primary:disabled {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
 }
 
-#am-database .am-db-btn-refresh {
-    background: var(--authme-white);
+.am-d-btn-secondary {
+    background-color: var(--authme-white);
     color: var(--authme-secondary);
     border: 1px solid var(--authme-border-default);
-    padding: 0.6rem 1.25rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    font-size: 0.85rem;
-    cursor: pointer;
-    transition: all 0.2s;
 }
 
-#am-database .am-db-btn-refresh:hover {
-    border-color: var(--authme-primary);
-    background: var(--authme-bg);
+.am-d-btn-secondary:hover:not(:disabled) {
+    background-color: var(--authme-bg);
+    border-color: var(--authme-grey-light-text);
+    color: var(--authme-text);
 }
 
-#am-database .am-db-btn-refresh:disabled {
+.am-d-btn-secondary:disabled {
     opacity: 0.6;
     cursor: not-allowed;
 }
 
-/* ── Toast ──────────────────────────────── */
-.am-db-toast {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 0.6rem 1.2rem;
-    border-radius: 2rem;
-    font-size: 0.85rem;
-    font-weight: 500;
-    z-index: 100000;
-    animation: amDbFadeOut 4s forwards;
+.am-d-btn-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
 }
 
-.am-db-toast-success {
-    background: var(--authme-success);
-    color: var(--authme-white);
+.footer-note {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 400;
+    margin: 2rem;
+    color: var(--authme-grey-light-text);
 }
 
-.am-db-toast-error {
-    background: var(--authme-error);
-    color: var(--authme-white);
-}
+/* RESPONSIVE BREAKPOINTS */
 
-@keyframes amDbFadeOut {
-    0% {
-        opacity: 1;
-        transform: translateY(0);
+@media (max-width: 480px) {
+    .am-d-header {
+        flex-direction: column;
+        text-align: center;
     }
-
-    75% {
-        opacity: 1;
+    .am-d-header-icon {
+        width: 50px;
+        height: 50px;
     }
-
-    100% {
-        opacity: 0;
-        visibility: hidden;
+    .am-d-section-title {
+        text-align: center;
     }
-}
-
-/* ── Responsive ─────────────────────────── */
-@media (max-width: 600px) {
-    #am-database .am-title {
-        font-size: 1.5rem;
+    .am-d-card-header {
+        flex-direction: column;
+        align-items: flex-start;
     }
-
-    #am-database .am-card {
-        padding: 1rem;
+    .am-d-field-row {
+        align-items: flex-start;
+        gap: 8px;
     }
-
-    #am-database .am-db-table th,
-    #am-database .am-db-table td {
-        padding: 0.5rem 0.6rem;
-        font-size: 0.8rem;
+    .am-d-field-info {
+        justify-content: flex-start;
     }
-
-    #am-database .am-db-col-name {
-        padding-left: 1.5rem;
-    }
-
-    #am-database .am-db-actions {
+    .am-d-action-bar {
         flex-direction: column;
     }
-
-    #am-database .am-db-btn-create,
-    #am-database .am-db-btn-refresh {
+    .am-d-btn {
         width: 100%;
-        text-align: center;
+        min-width: unset;
+    }
+}
+
+@media (min-width: 481px) and (max-width: 600px) {
+    .am-d-action-bar {
+        flex-direction: column;
+    }
+    .am-d-btn {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+@media (min-width: 601px) and (max-width: 768px) {
+    .am-d-action-bar {
+        flex-wrap: wrap;
+    }
+    .am-d-btn {
+        flex: 1 1 calc(50% - 8px);
     }
 }

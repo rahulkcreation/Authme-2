@@ -180,6 +180,14 @@ class AuthMe_Assets_Loader {
                 'dir' => $base_dir . 'admin/assets/js/admin.js',
                 'url' => $base_url . 'admin/assets/js/admin.js',
             ),
+            'admin_toaster_css' => array(
+                'dir' => $base_dir . 'admin/assets/css/admin-toaster.css',
+                'url' => $base_url . 'admin/assets/css/admin-toaster.css',
+            ),
+            'admin_toaster_js'  => array(
+                'dir' => $base_dir . 'admin/assets/js/admin-toaster.js',
+                'url' => $base_url . 'admin/assets/js/admin-toaster.js',
+            ),
             'admin_dashboard_css' => array(
                 'dir' => $base_dir . 'admin/assets/css/dashboard.css',
                 'url' => $base_url . 'admin/assets/css/dashboard.css',
