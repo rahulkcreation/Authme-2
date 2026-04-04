@@ -29,6 +29,7 @@
     /* ── Debounce Timers ─────────────────── */
     var usernameDebounce = null;
     var emailDebounce    = null;
+    var mobileDebounce   = null;
 
     /**
      * Reset the internal registration validation state.
@@ -274,13 +275,27 @@
 
             // Validate the mobile number against the country's regex pattern
             if (selectedCountry.regex.test(mobileValue)) {
-                regState.mobileValid = true;
-                authmeSetFieldState(mobileInput, mobileMsg, 'success', 'Valid mobile number.');
+                // Formatting is good, now check uniqueness via AJAX
+                clearTimeout(mobileDebounce);
+                mobileDebounce = setTimeout(function () {
+                    authmeAjax('authme_check_mobile', { mobile: countryCode + mobileValue },
+                        function (data) {
+                            regState.mobileValid = true;
+                            authmeSetFieldState(mobileInput, mobileMsg, 'success', data.message);
+                            updateSubmitButton();
+                        },
+                        function (data) {
+                            regState.mobileValid = false;
+                            authmeSetFieldState(mobileInput, mobileMsg, 'error', data.message);
+                            updateSubmitButton();
+                        }
+                    );
+                }, 500);
             } else {
                 regState.mobileValid = false;
                 authmeSetFieldState(mobileInput, mobileMsg, 'error', 'Invalid mobile number format for ' + selectedCountry.country + '.');
+                updateSubmitButton();
             }
-            updateSubmitButton();
         }
 
         mobileInput.addEventListener('input', function () {

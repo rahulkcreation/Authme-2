@@ -67,6 +67,35 @@ class AuthMe_Auth {
     }
 
     /* ──────────────────────────────────────────────────
+     * AJAX: Check mobile availability (Registration)
+     * ────────────────────────────────────────────────── */
+    public function ajax_check_mobile() {
+        check_ajax_referer( 'authme_nonce', 'nonce' );
+
+        $mobile = isset( $_POST['mobile'] ) ? sanitize_text_field( $_POST['mobile'] ) : '';
+
+        if ( empty( $mobile ) ) {
+            wp_send_json_error( array( 'message' => 'Please enter a valid mobile number.' ) );
+        }
+
+        // Check uniqueness in user meta
+        $args = array(
+            'meta_key'     => 'mobile_number',
+            'meta_value'   => $mobile,
+            'meta_compare' => '=',
+            'number'       => 1,
+            'fields'       => 'IDS'
+        );
+        $users = get_users( $args );
+
+        if ( ! empty( $users ) ) {
+            wp_send_json_error( array( 'message' => 'Mobile number already registered.' ) );
+        }
+
+        wp_send_json_success( array( 'message' => 'Mobile number available.' ) );
+    }
+
+    /* ──────────────────────────────────────────────────
      * AJAX: Check if user exists (Login — user lookup)
      * ────────────────────────────────────────────────── */
     public function ajax_check_user_exists() {

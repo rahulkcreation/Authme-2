@@ -175,6 +175,7 @@ $authme_host = new AuthMe_Host_Request();
 $ajax_actions = array(
     'authme_check_username'    => array($authme_auth, 'ajax_check_username'),
     'authme_check_email'       => array($authme_auth, 'ajax_check_email'),
+    'authme_check_mobile'      => array($authme_auth, 'ajax_check_mobile'),
     'authme_check_user_exists' => array($authme_auth, 'ajax_check_user_exists'),
     'authme_login_user'        => array($authme_auth, 'ajax_login_user'),
     'authme_register_user'     => array($authme_auth, 'ajax_register_user'),
