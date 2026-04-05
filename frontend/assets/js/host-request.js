@@ -367,7 +367,11 @@
                             var res = JSON.parse(xhr.responseText);
                             if (res.success) {
                                 var url = res.data.url;
-                                hostState.files[stateKey] = url;
+                                var attachId = res.data.attachment_id;
+                                hostState.files[stateKey] = {
+                                    url: url,
+                                    attachment_id: attachId
+                                };
                                 img.src = url;
                                 preview.style.display = 'block';
                                 checkStep2();
@@ -389,6 +393,21 @@
 
         removeBtn.addEventListener('click', function(e) {
             e.stopPropagation();
+            
+            var fileData = hostState.files[stateKey];
+            if (fileData && fileData.attachment_id) {
+                // Call server to delete the file
+                var delData = new FormData();
+                delData.append('action', 'authme_delete_host_document');
+                delData.append('nonce', authme_ajax.nonce);
+                delData.append('attachment_id', fileData.attachment_id);
+                
+                fetch(authme_ajax.ajax_url, {
+                    method: 'POST',
+                    body: delData
+                });
+            }
+
             input.value = '';
             img.src = '';
             preview.style.display = 'none';

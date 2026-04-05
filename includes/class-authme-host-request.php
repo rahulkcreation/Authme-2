@@ -78,6 +78,9 @@ class AuthMe_Host_Request {
             $attach_data = wp_generate_attachment_metadata( $attach_id, $movefile['file'] );
             wp_update_attachment_metadata( $attach_id, $attach_data );
 
+            // Mark as temporary for later cleanup if not submitted
+            update_post_meta( $attach_id, '_authme_host_temp', time() );
+
             wp_send_json_success( array(
                 'url' => $movefile['url'],
                 'attachment_id' => $attach_id,
@@ -225,7 +228,84 @@ class AuthMe_Host_Request {
             wp_send_json_error( array( 'message' => 'Failed to submit application. Please try again.' ) );
         }
 
+        // Application submitted successfully! Solidify the attachments.
+        $files = isset( $decoded['files'] ) ? $decoded['files'] : array();
+        foreach ( $files as $file ) {
+            if ( ! empty( $file['attachment_id'] ) ) {
+                delete_post_meta( $file['attachment_id'], '_authme_host_temp' );
+            }
+        }
+
         wp_send_json_success( array( 'message' => 'Application submitted successfully.' ) );
+    }
+
+    /* ──────────────────────────────────────── */
+
+    /**
+     * AJAX handler: Delete a host document from the server.
+     */
+    public function ajax_delete_host_document() {
+        check_ajax_referer( 'authme_nonce', 'nonce' );
+
+        $attach_id = isset( $_POST['attachment_id'] ) ? intval( $_POST['attachment_id'] ) : 0;
+        if ( ! $attach_id ) {
+            wp_send_json_error( array( 'message' => 'Invalid attachment ID.' ) );
+        }
+
+        // Verify it was a temporary host upload before deleting
+        $is_temp = get_post_meta( $attach_id, '_authme_host_temp', true );
+        if ( ! $is_temp ) {
+            wp_send_json_error( array( 'message' => 'Unauthorized deletion or file already processed.' ) );
+        }
+
+        if ( wp_delete_attachment( $attach_id, true ) ) {
+            wp_send_json_success( array( 'message' => 'File deleted successfully.' ) );
+        } else {
+            wp_send_json_error( array( 'message' => 'Failed to delete file from server.' ) );
+        }
+    }
+
+    /* ──────────────────────────────────────── */
+
+    /**
+     * Cleanup orphaned documents that were never submitted.
+     * Called via cron twice daily.
+     */
+    public function cleanup_orphaned_documents() {
+        $args = array(
+            'post_type'      => 'attachment',
+            'post_status'    => 'inherit',
+            'posts_per_page' => 50,
+            'meta_query'     => array(
+                array(
+                    'key'     => '_authme_host_temp',
+                    'compare' => 'EXISTS',
+                ),
+            ),
+        );
+
+        $query = new WP_Query( $args );
+
+        if ( $query->have_posts() ) {
+            foreach ( $query->posts as $post ) {
+                wp_delete_attachment( $post->ID, true );
+            }
+        }
+    }
+
+    /* ──────────────────────────────────────── */
+
+    /**
+     * Cleanup rejected host requests older than 7 days.
+     * Keeps the database clean from old rejected data.
+     * Called via cron twice daily.
+     */
+    public function cleanup_rejected_requests() {
+        global $wpdb;
+        // Delete rows where status is 'rejected' and older than 7 days
+        $wpdb->query( $wpdb->prepare(
+            "DELETE FROM {$this->table_name} WHERE status = 'rejected' AND date < DATE_SUB(NOW(), INTERVAL 7 DAY)"
+        ) );
     }
 
     /* ──────────────────────────────────────── */

@@ -220,12 +220,12 @@ class AuthMe_OTP {
             "DELETE FROM {$this->table_name} WHERE is_verified = 1"
         );
 
-        // 2. Delete all expired & unverified OTPs older than 1 hour
-        $one_hour_ago = gmdate( 'Y-m-d H:i:s', time() - HOUR_IN_SECONDS );
+        // 2. Delete all expired & unverified OTPs immediately
+        $now = current_time( 'mysql' );
         $wpdb->query(
             $wpdb->prepare(
                 "DELETE FROM {$this->table_name} WHERE is_verified = 0 AND expires_at < %s",
-                $one_hour_ago
+                $now
             )
         );
     }

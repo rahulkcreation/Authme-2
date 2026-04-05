@@ -4,7 +4,7 @@
  * Plugin Name: AuthMe
  * Plugin URI: https://arttechfuzion.com
  * Description: A comprehensive WordPress authentication plugin with OTP verification for secure registration and login.
- * Version: 1.8.0
+ * Version: 2.0.0
  * Author: Art-Tech Fuzion
  * Author URI: https://arttechfuzion.com
  * Text Domain: authme
@@ -20,7 +20,7 @@ if (! defined('ABSPATH')) {
 /* ──────────────────────────────────────────────
  * Constants
  * ────────────────────────────────────────────── */
-define('AUTHME_VERSION', '1.8.0');
+define('AUTHME_VERSION', '2.0.0');
 define('AUTHME_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('AUTHME_PLUGIN_URL', plugin_dir_url(__FILE__));
 define('AUTHME_PLUGIN_BASENAME', plugin_basename(__FILE__));
@@ -72,9 +72,18 @@ function authme_activate_plugin()
     authme_register_rewrite_rules();
     flush_rewrite_rules();
 
-    // Schedule OTP cleanup cron (runs twice daily)
+    // Schedule OTP cleanup cron (runs once daily at 3 AM Site Local Time)
     if (! wp_next_scheduled('authme_otp_cleanup')) {
-        wp_schedule_event(time(), 'twicedaily', 'authme_otp_cleanup');
+        // Calculate the next occurrence of 3:00 AM in the site's local timezone
+        $timezone = wp_timezone();
+        $date = new DateTime('today 03:00:00', $timezone);
+        
+        // If 3:00 AM today has already passed, schedule for tomorrow
+        if ($date->getTimestamp() <= time()) {
+            $date->modify('+1 day');
+        }
+        
+        wp_schedule_event($date->getTimestamp(), 'daily', 'authme_otp_cleanup');
     }
 }
 
@@ -109,6 +118,10 @@ function authme_run_otp_cleanup()
 {
     $otp = new AuthMe_OTP();
     $otp->cleanup_expired_otps();
+
+    $host_req = new AuthMe_Host_Request();
+    $host_req->cleanup_orphaned_documents();
+    $host_req->cleanup_rejected_requests();
 }
 
 /* ──────────────────────────────────────────────
@@ -197,6 +210,7 @@ $ajax_actions = array(
     'authme_check_host_mobile'     => array($authme_host, 'ajax_check_host_mobile'),
     'authme_upload_host_document'  => array($authme_host, 'ajax_upload_host_document'),
     'authme_submit_host_request'   => array($authme_host, 'ajax_submit_host_request'),
+    'authme_delete_host_document'  => array($authme_host, 'ajax_delete_host_document'),
 );
 
 foreach ($ajax_actions as $action => $callback) {
